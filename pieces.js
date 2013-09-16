@@ -137,6 +137,12 @@ function Knight(side){
 	Piece.call(this, "N", side);
 	
 	this.legalMove = function (x1, y1, x2, y2) {
+		if(containsOwn(x2, y2, this.side)){
+			return false;
+		}
+		if((Math.abs(x1-x2) == 1 && Math.abs(y1-y2) == 2) ||(Math.abs(x1-x2) == 2 && Math.abs(y1-y2) == 1)){
+			return true;
+		}
 		return false;
 	}
 }
