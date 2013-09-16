@@ -97,7 +97,38 @@ function Bishop(side){
 	Piece.call(this, "B", side);
 	
 	this.legalMove = function (x1, y1, x2, y2) {
-		return false;
+		if(containsOwn(x2, y2, this.side)){
+			return false;
+		}
+		if(Math.abs(x1 - x2) != Math.abs(y1 - y2)){ //must be diagonal
+			return false;
+		}
+		if(x1 > x2 && y1 > y2){
+			for(var i = x1 - 1, j = y1 - 1; i > x2; i--, j--){
+				if(grid.squares[j][i] != null){
+					return false;
+				}
+			}
+		} else if (x1 < x2 && y1 > y2){
+			for(var i = x1 + 1, j = y1 - 1; i < x2; i++, j--){
+				if(grid.squares[j][i] != null){
+					return false;
+				}
+			}
+		} else if (x1 > x2 && y1 < y2){
+			for(var i = x1 - 1, j = y1 + 1; i > x2; i--, j++){
+				if(grid.squares[j][i] != null){
+					return false;
+				}
+			}
+		} else if (x1 < x2 && y1 < y2){
+			for(var i = x1 + 1, j = y1 + 1; i < x2; i++, j++){
+				if(grid.squares[j][i] != null){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
 Bishop.prototype = new Piece;
