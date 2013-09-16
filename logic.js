@@ -1,5 +1,5 @@
 var grid;
-var whoseMove = 1;
+var whoseMove = 2;
 
 function init(){
 	grid = new Grid();
