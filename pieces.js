@@ -160,8 +160,79 @@ King.prototype = new Piece;
 function Queen(side){
 	Piece.call(this, "Q", side);
 	
-	this.legalMove = function (x1, y1, x2, y2) {
+	this.legalMove = function (x1, y1, x2, y2) 
+	{
+		if (containsOwn(x2, y2, this.side)) {
+			return false;
+		}
+		
+		if (x1 == x2 || y1 == y2) { //move like rook
+			if (x1 == x2) {
+				if (y1 > y2) {
+					for (var i = y1 - 1; i > y2; i--) {
+						if (grid.squares[i][x1] != null) {
+							return false;
+						}
+					}
+				} else {
+					for (var i = y1 + 1; i < y2; i++) {
+						if (grid.squares[i][x1] != null) {
+							return false;
+						}
+					}
+				}
+				return true;
+			}
+			if (y1 == y2) {
+				if (x1 > x2) {
+					for (var i = x1 - 1; i > x2; i--) {
+						if (grid.squares[y1][i] != null) {
+							return false;
+						}
+					}
+				} else {
+					for (var i = x1 + 1; i < x2; i++) {
+						if (grid.squares[y1][i] != null) {
+							return false;
+						}
+					}
+				}
+				return true;
+			}
+		
+		} else if (Math.abs(x1 - x2) == Math.abs(y1 - y2)) { //move like bishop
+			alert("move like bishop")
+			if (x1 > x2 && y1 > y2) {
+				for (var i = x1 - 1, j = y1 - 1; i > x2; i--, j--) {
+					if (grid.squares[j][i] != null) {
+						return false;
+					}
+				}
+			} else if (x1 < x2 && y1 > y2) {
+				for (var i = x1 + 1, j = y1 - 1; i < x2; i++, j--) {
+					if (grid.squares[j][i] != null) {
+						return false;
+					}
+				}
+			} else if (x1 > x2 && y1 < y2) {
+				for (var i = x1 - 1, j = y1 + 1; i > x2; i--, j++) {
+					if (grid.squares[j][i] != null) {
+						return false;
+					}
+				}
+			} else if (x1 < x2 && y1 < y2) {
+				for (var i = x1 + 1, j = y1 + 1; i < x2; i++, j++) {
+					if (grid.squares[j][i] != null) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+
 		return false;
 	}
+
 }
 Queen.prototype = new Piece;
