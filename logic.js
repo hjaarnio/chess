@@ -43,7 +43,10 @@ function move(x1, y1, x2, y2){
 function checkValidMove(x1, y1, x2, y2){
 	if(x1 < 0 || x1 >= grid.gridWidth || y1 < 0 || y1 >= grid.gridHeight || 
 	   x2 < 0 || x2 >= grid.gridWidth || y2 < 0 || y2 >= grid.gridHeight ){
-		alert("outside borders")
+		return false;
+	}
+	
+	if(x1 == x2 && y1 == y2){
 		return false;
 	}
 	
