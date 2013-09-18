@@ -14,7 +14,7 @@ function Piece(type, side){
 	}
 }
 
-function containsOwn(x2, y2, side){
+function containsOwn(x2, y2, side, grid){
 	return grid.squares[y2][x2] != null && grid.squares[y2][x2].side == side;
 }
 
@@ -49,7 +49,7 @@ function Rook(side){
 	Piece.call(this, "R", side);
 	
 	this.legalMove = function(x1, y1, x2, y2, grid) {
-		if(containsOwn(x2, y2, this.side)){
+		if(containsOwn(x2, y2, this.side, grid)){
 			return false;
 		}
 		if(x1 != x2 && y1 != y2){ //move must be exactly horizontal or vertical
@@ -97,7 +97,7 @@ function Bishop(side){
 	Piece.call(this, "B", side);
 	
 	this.legalMove = function (x1, y1, x2, y2, grid) {
-		if(containsOwn(x2, y2, this.side)){
+		if(containsOwn(x2, y2, this.side, grid)){
 			return false;
 		}
 		if(Math.abs(x1 - x2) != Math.abs(y1 - y2)){ //must be diagonal
@@ -137,7 +137,7 @@ function Knight(side){
 	Piece.call(this, "N", side);
 	
 	this.legalMove = function (x1, y1, x2, y2, grid) {
-		if(containsOwn(x2, y2, this.side)){
+		if(containsOwn(x2, y2, this.side, grid)){
 			return false;
 		}
 		if((Math.abs(x1-x2) == 1 && Math.abs(y1-y2) == 2) ||(Math.abs(x1-x2) == 2 && Math.abs(y1-y2) == 1)){
@@ -153,7 +153,7 @@ function King(side){
 	this.hasMoved = false;
 	
 	this.legalMove = function (x1, y1, x2, y2, grid) {
-		if(containsOwn(x2, y2, this.side)){
+		if(containsOwn(x2, y2, this.side, grid)){
 			return false;
 		}
 		if(Math.abs(x1-x2) <= 1 && Math.abs(y1-y2) <= 1){
@@ -161,9 +161,9 @@ function King(side){
 		}
 		return false;
 	}
-	this.move = function(x1, y1, x2, y2){
+	this.move = function(x1, y1, x2, y2, grid){
 		this.hasMoved = true;
-		this.__proto__.move(x1, y1, x2, y2);
+		this.__proto__.move(x1, y1, x2, y2, grid);
 	}
 }
 King.prototype = new Piece;
@@ -173,7 +173,7 @@ function Queen(side){
 	
 	this.legalMove = function (x1, y1, x2, y2, grid) 
 	{
-		if (containsOwn(x2, y2, this.side)) {
+		if (containsOwn(x2, y2, this.side, grid)) {
 			return false;
 		}
 		
