@@ -57,6 +57,8 @@ function mouseClick(event){
 		selected = null;
 	}
 	draw(primaryGrid);
+//	alert(isKingInCheck(1, primaryGrid));
+//	alert(isKingInCheck(2, primaryGrid));
 }
 
 function calculateMouse(axis, x) {
