@@ -2,13 +2,13 @@ function Piece(type, side){
 	this.type = type;
 	this.side = side;
 	
-	this.move = function (x1, y1, x2, y2){ //moving function used by all pieces except king in special case
+	this.move = function (x1, y1, x2, y2, grid){ //moving function used by all pieces except king in special case
 		//alert("piece move")
 		grid.squares[y2][x2] = grid.squares[y1][x1];
 		grid.squares[y1][x1] = null;
 	}
 	
-	this.legalMove = function(x1, y1, x2, y2) {
+	this.legalMove = function(x1, y1, x2, y2, grid) {
 		alert("piece legal move"); //we should never come here, each piece goes to own one.
 		return false;
 	}
@@ -21,7 +21,7 @@ function containsOwn(x2, y2, side){
 function Pawn(side){
 	Piece.call(this, "P", side);
 	
-	this.legalMove = function(x1, y1, x2, y2) {
+	this.legalMove = function(x1, y1, x2, y2, grid) {
 		var direction = (this.side * 2) - 3;
 		
 		if(grid.squares[y2][x2] == null){
@@ -48,7 +48,7 @@ Pawn.prototype = new Piece;
 function Rook(side){
 	Piece.call(this, "R", side);
 	
-	this.legalMove = function(x1, y1, x2, y2) {
+	this.legalMove = function(x1, y1, x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side)){
 			return false;
 		}
@@ -96,7 +96,7 @@ Rook.prototype = new Piece;
 function Bishop(side){
 	Piece.call(this, "B", side);
 	
-	this.legalMove = function (x1, y1, x2, y2) {
+	this.legalMove = function (x1, y1, x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side)){
 			return false;
 		}
@@ -136,7 +136,7 @@ Bishop.prototype = new Piece;
 function Knight(side){
 	Piece.call(this, "N", side);
 	
-	this.legalMove = function (x1, y1, x2, y2) {
+	this.legalMove = function (x1, y1, x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side)){
 			return false;
 		}
@@ -152,7 +152,7 @@ function King(side){
 	Piece.call(this, "K", side);
 	this.hasMoved = false;
 	
-	this.legalMove = function (x1, y1, x2, y2) {
+	this.legalMove = function (x1, y1, x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side)){
 			return false;
 		}
@@ -171,7 +171,7 @@ King.prototype = new Piece;
 function Queen(side){
 	Piece.call(this, "Q", side);
 	
-	this.legalMove = function (x1, y1, x2, y2) 
+	this.legalMove = function (x1, y1, x2, y2, grid) 
 	{
 		if (containsOwn(x2, y2, this.side)) {
 			return false;

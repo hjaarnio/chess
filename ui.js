@@ -3,7 +3,7 @@ var squareWidth = 13,
 
 var selected = null;
 
-function draw(){
+function draw(grid){
 	var output = "";
 	for (var i = 0; i < grid.gridWidth; i++){
 		for (var j = 0; j < grid.gridHeight; j++){
@@ -39,8 +39,8 @@ function clicked(){
 	var y2 = parseInt(document.getElementById("to2").value);
 	
 	alert(x1+ " " + x2 + " " + y1 + " " + y2)
-	move(x1, y1, x2, y2);
-	draw();
+	move(x1, y1, x2, y2, primaryGrid);
+	draw(primaryGrid);
 	
 }
 
@@ -50,13 +50,13 @@ function mouseClick(event){
 	
 	//alert(x + " " + y);
 	
-	if(selected == null && grid.squares[y][x] != null){
+	if(selected == null && primaryGrid.squares[y][x] != null){
 		selected = {x: x , y: y};
 	} else {
-		move(selected.x, selected.y, x, y);
+		move(selected.x, selected.y, x, y, primaryGrid);
 		selected = null;
 	}
-	draw();
+	draw(primaryGrid);
 }
 
 function calculateMouse(axis, x) {

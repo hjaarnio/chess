@@ -1,8 +1,8 @@
-var grid;
+var primaryGrid;
 var whoseMove = 2;
 
 function init(){
-	grid = new Grid();
+	primaryGrid = new Grid();
 }
 
 
@@ -24,10 +24,10 @@ function Grid(){
 	this.squares[6] = [new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2)];
 }
 
-function move(x1, y1, x2, y2){
-	if (checkValidMove(x1, y1, x2, y2)){
-		if(grid.squares[y1][x1].legalMove(x1, y1, x2, y2)){
-			grid.squares[y1][x1].move(x1, y1, x2, y2);
+function move(x1, y1, x2, y2, grid){
+	if (checkValidMove(x1, y1, x2, y2, grid)){
+		if(grid.squares[y1][x1].legalMove(x1, y1, x2, y2, grid)){
+			grid.squares[y1][x1].move(x1, y1, x2, y2, grid);
 			if(whoseMove == 1){
 				whoseMove = 2;
 			} else whoseMove = 1;
@@ -40,7 +40,7 @@ function move(x1, y1, x2, y2){
 	return false;
 }
 
-function checkValidMove(x1, y1, x2, y2){
+function checkValidMove(x1, y1, x2, y2, grid){
 	if(x1 < 0 || x1 >= grid.gridWidth || y1 < 0 || y1 >= grid.gridHeight || 
 	   x2 < 0 || x2 >= grid.gridWidth || y2 < 0 || y2 >= grid.gridHeight ){
 		return false;
