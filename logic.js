@@ -52,7 +52,7 @@ function move(x1, y1, x2, y2, grid){
 			} else whoseMove = 1;
 			return true;
 		} else {
-			alert("piece denies");
+			
 		}
 	} 
 	
@@ -74,5 +74,5 @@ function checkValidMove(x1, y1, x2, y2, grid){
 	} else {
 		alert("wrong turn (or no piece)")
 		return false;
-	}
+	}	
 }

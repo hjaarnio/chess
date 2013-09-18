@@ -57,13 +57,17 @@ function mouseClick(event){
 		selected = null;
 	}
 	draw(primaryGrid);
-//	alert(isKingInCheck(1, primaryGrid));
-//	alert(isKingInCheck(2, primaryGrid));
+	if(isKingInCheck(1, primaryGrid)){
+		alert("black in check")
+	}
+	if(isKingInCheck(2, primaryGrid)){
+		alert("white in check")
+	}
 }
 
 function calculateMouse(axis, x) {
 	if(axis == "x")
-		return parseInt(x / squareWidth)
+		return parseInt(x / squareWidth);
 	else if(axis == "y")
-		return parseInt(x / squareHeight)
+		return parseInt(x / squareHeight);
 }

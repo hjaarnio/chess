@@ -16,10 +16,10 @@ function isKingInCheck(side, grid){
 }
 
 function verifyPawns(x, y, side, grid){
-	if((grid.squares[y + (side * -2 + 3)][x + 1] != null && grid.squares[y + (side * -2 + 3)][x + 1].type == "P" && grid.squares[y + (side * -2 + 3)][x + 1].side != side)
-		|| (grid.squares[y + (side * -2 + 3)][x - 1] != null && grid.squares[y + (side * -2 + 3)][x - 1].type == "P" && grid.squares[y + (side * -2 + 3)][x - 1].side != side)){
+	if((grid.squares[y + (side * -2 + 3)][x + 1] != null && grid.squares[y + (side * -2 + 3)][x + 1].type == "P" && grid.squares[y + (side * -2 + 3)][x + 1].side != side) ||
+	   (grid.squares[y + (side * -2 + 3)][x - 1] != null && grid.squares[y + (side * -2 + 3)][x - 1].type == "P" && grid.squares[y + (side * -2 + 3)][x - 1].side != side)){
 			return false;
-	}
+	   }
 	return true;
 }
 
