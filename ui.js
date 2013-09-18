@@ -1,6 +1,6 @@
-var squareWidth = 13,
-	squareHeight = 15;
-
+var squareWidth = document.getElementById("dummy").clientWidth / 8,
+	squareHeight = document.getElementById("dummy").clientHeight;
+	
 var selected = null;
 
 function draw(grid){
