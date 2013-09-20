@@ -15,27 +15,33 @@ function Grid(){
 	
 	for(i = 0; i < this.gridWidth; i++){
 		this.squares[i] = new Array(this.gridHeight);
+		for(j = 0; j < this.gridHeight; j++){
+			this.squares[i][j] = {};
+		}
 	}
 	
-	this.squares[0] = [new Rook(1), new Knight(1), new Bishop(1), new Queen(1), new King(1), new Bishop(1), new Knight(1), new Rook(1)];
-	this.squares[1] = [new Pawn(1), new Pawn(1), new Pawn(1), new Pawn(1), new Pawn(1), new Pawn(1), new Pawn(1), new Pawn(1)];
+	alert("grid made")
 	
-	this.squares[7] = [new Rook(2), new Knight(2), new Bishop(2), new Queen(2), new King(2), new Bishop(2), new Knight(2), new Rook(2)];
-	this.squares[6] = [new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2), new Pawn(2)];
+	this.squares[0] = kingRow(1);
+	this.squares[1] = pawnRow(1);
+	this.squares[6] = pawnRow(2);
+	this.squares[7] = kingRow(2);
+	
+	alert("king rows made")
 	
 	this.copy = function(){ //returns a copy of the grid
 		var result = new Grid();
 		for(i = 0; i < this.gridWidth; i++){
 			for(j = 0; j < this.gridHeight; j++){
-				if(this.squares[i][j] == null){
-					result.squares[i][j] = null;
+				if(this.squares[i][j].piece == null){
+					result.squares[i][j].piece = null;
 				}else switch(this.squares[i][j].type){					
-					case "P": result.squares[i][j] = new Pawn(this.squares[i][j].side); break;
-					case "R": result.squares[i][j] = new Rook(this.squares[i][j].side); break;
-					case "N": result.squares[i][j] = new Knight(this.squares[i][j].side); break;
-					case "B": result.squares[i][j] = new Bishop(this.squares[i][j].side); break;
-					case "Q": result.squares[i][j] = new Queen(this.squares[i][j].side); break;
-					case "K": result.squares[i][j] = new King(this.squares[i][j].side); break;
+					case "P": result.squares[i][j].piece = new Pawn(this.squares[i][j].side); break;
+					case "R": result.squares[i][j].piece = new Rook(this.squares[i][j].side); break;
+					case "N": result.squares[i][j].piece = new Knight(this.squares[i][j].side); break;
+					case "B": result.squares[i][j].piece = new Bishop(this.squares[i][j].side); break;
+					case "Q": result.squares[i][j].piece = new Queen(this.squares[i][j].side); break;
+					case "K": result.squares[i][j].piece = new King(this.squares[i][j].side); break;
 				}
 			}
 		}
@@ -43,10 +49,32 @@ function Grid(){
 	}
 }
 
+function kingRow(side){
+	var row = [{},{},{},{},{},{},{},{}];
+	row[0].piece = new Rook(side);
+	row[1].piece = new Knight(side);
+	row[2].piece = new Bishop(side);
+	row[3].piece = new King(side);
+	row[4].piece = new Queen(side);
+	row[5].piece = new Bishop(side);
+	row[6].piece = new Knight(side);
+	row[7].piece = new Rook(side);
+	
+	return row;
+}
+
+function pawnRow(side){
+	var row = [{},{},{},{},{},{},{},{}];
+	for(i = 0; i < row.length ; i++){
+		row[i].piece = new Pawn(side);
+	}
+	return row;
+}
+
 function move(x1, y1, x2, y2, grid){
 	if (checkValidMove(x1, y1, x2, y2, grid)){
-		if(grid.squares[y1][x1].legalMove(x1, y1, x2, y2, grid)){
-			grid.squares[y1][x1].move(x1, y1, x2, y2, grid);
+		if(grid.squares[y1][x1].piece.legalMove(x1, y1, x2, y2, grid)){
+			grid.squares[y1][x1].piece.move(x1, y1, x2, y2, grid);
 			if(whoseMove == 1){
 				whoseMove = 2;
 			} else whoseMove = 1;
@@ -69,7 +97,7 @@ function checkValidMove(x1, y1, x2, y2, grid){
 		return false;
 	}
 	
-	if(grid.squares[y1][x1] != null && grid.squares[y1][x1].side == whoseMove){
+	if(grid.squares[y1][x1].piece != null && grid.squares[y1][x1].piece.side == whoseMove){
 		return true;
 	} else {
 		alert("wrong turn (or no piece)")

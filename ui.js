@@ -7,15 +7,15 @@ function draw(grid){
 	var output = "";
 	for (var i = 0; i < grid.gridWidth; i++){
 		for (var j = 0; j < grid.gridHeight; j++){
-			if (grid.squares[i][j] != null){
+			if (grid.squares[i][j].piece != null){
 				if(selected != null && selected.y == i && selected.x == j){
 					output += "<b>";
 				}
-				if(grid.squares[i][j].side == 1){
-					output += grid.squares[i][j].type.toLowerCase();
+				if(grid.squares[i][j].piece.side == 1){
+					output += grid.squares[i][j].piece.type.toLowerCase();
 				}
 				else {
-					output += grid.squares[i][j].type;
+					output += grid.squares[i][j].piece.type;
 				}
 				if(selected != null && selected.y == i && selected.x == j){
 					output += "</b>";
