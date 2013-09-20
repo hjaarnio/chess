@@ -20,14 +20,11 @@ function Grid(){
 		}
 	}
 	
-	alert("grid made")
-	
 	this.squares[0] = kingRow(1);
 	this.squares[1] = pawnRow(1);
 	this.squares[6] = pawnRow(2);
 	this.squares[7] = kingRow(2);
 	
-	alert("king rows made")
 	
 	this.copy = function(){ //returns a copy of the grid
 		var result = new Grid();
@@ -99,7 +96,7 @@ function checkValidMove(x1, y1, x2, y2, grid){
 	if(grid.squares[y1][x1].piece != null && grid.squares[y1][x1].piece.side == whoseMove){
 		return true;
 	} else {
-		alert("wrong turn (or no piece)")
+		alert("wrong turn")
 		return false;
 	}	
 }
