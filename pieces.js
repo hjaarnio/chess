@@ -51,45 +51,49 @@ Pawn.prototype = new Piece;
 function Rook(side){
 	Piece.call(this, "R", side);
 	
+	this.moveset = function(x1, y1, grid){
+		moveset = new Array();
+				
+		var x, y;
+		
+		for(x = x1, y = y1 + 1; !outsideBoard(x, y, grid) && grid.squares[y][x].piece == null; y++){
+			moveset.push(grid.squares[y][x]);
+		}
+		if(!outsideBoard(x, y, grid) && grid.squares[y][x].piece.side != this.side){
+			moveset.push(grid.squares[y][x]);
+		}
+		
+		for(x = x1, y = y1 - 1; !outsideBoard(x, y, grid) && grid.squares[y][x].piece == null; y--){
+			moveset.push(grid.squares[y][x]);
+		}
+		if(!outsideBoard(x, y, grid) && grid.squares[y][x].piece.side != this.side){
+			moveset.push(grid.squares[y][x]);
+		}
+		
+		for(x = x1 + 1, y = y1; !outsideBoard(x, y, grid) && grid.squares[y][x].piece == null; x++){
+			moveset.push(grid.squares[y][x]);
+		}
+		if(!outsideBoard(x, y, grid) && grid.squares[y][x].piece.side != this.side){
+			moveset.push(grid.squares[y][x]);
+		}
+		
+		for(x = x1 - 1, y = y1; !outsideBoard(x, y, grid) && grid.squares[y][x].piece == null; x--){
+			moveset.push(grid.squares[y][x]);
+		}
+		if(!outsideBoard(x, y, grid) && grid.squares[y][x].piece.side != this.side){
+			moveset.push(grid.squares[y][x]);
+		}
+		
+		return moveset;
+	}
+	
 	this.legalMove = function(x1, y1, x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side, grid)){
 			return false;
 		}
-		if(x1 != x2 && y1 != y2){ //move must be exactly horizontal or vertical
-			return false;
-		}
-		if(x1 == x2){
-			if(y1 > y2){
-				for(var i = y1 - 1; i > y2; i--){
-					if(grid.squares[i][x1].piece != null){
-						return false;
-					}
-				}
-			} else {
-				for(var i = y1 + 1; i < y2; i++){
-					if(grid.squares[i][x1].piece != null){
-						return false;
-					}
-				}
-			}
+		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
-		}
-		if(y1 == y2){
-			if(x1 > x2){
-				for(var i = x1 - 1; i > x2; i--){
-					if(grid.squares[y1][i].piece != null){
-						return false;
-					}
-				}
-			} else {
-				for(var i = x1 + 1; i < x2; i++){
-					if(grid.squares[y1][i].piece != null){
-						return false;
-					}
-				}
-			}
-			return true;
-		}
+		} else return false;
 	}
 }
 Rook.prototype = new Piece;
@@ -99,39 +103,49 @@ Rook.prototype = new Piece;
 function Bishop(side){
 	Piece.call(this, "B", side);
 	
+	this.moveset = function(x1, y1, grid){
+		moveset = new Array();
+				
+		var x, y;
+		
+		for(x = x1 + 1, y = y1 + 1; !outsideBoard(x, y, grid) && grid.squares[y][x].piece == null; y++, x++){
+			moveset.push(grid.squares[y][x]);
+		}
+		if(!outsideBoard(x, y, grid) && grid.squares[y][x].piece.side != this.side){
+			moveset.push(grid.squares[y][x]);
+		}
+		
+		for(x = x1 + 1, y = y1 - 1; !outsideBoard(x, y, grid) && grid.squares[y][x].piece == null; y--, x++){
+			moveset.push(grid.squares[y][x]);
+		}
+		if(!outsideBoard(x, y, grid) && grid.squares[y][x].piece.side != this.side){
+			moveset.push(grid.squares[y][x]);
+		}
+		
+		for(x = x1 - 1, y = y1 + 1; !outsideBoard(x, y, grid) && grid.squares[y][x].piece == null; y++, x--){
+			moveset.push(grid.squares[y][x]);
+		}
+		if(!outsideBoard(x, y, grid) && grid.squares[y][x].piece.side != this.side){
+			moveset.push(grid.squares[y][x]);
+		}
+		
+		for(x = x1 - 1, y = y1 - 1; !outsideBoard(x, y, grid) && grid.squares[y][x].piece == null; y--, x--){
+			moveset.push(grid.squares[y][x]);
+		}
+		if(!outsideBoard(x, y, grid) && grid.squares[y][x].piece.side != this.side){
+			moveset.push(grid.squares[y][x]);
+		}
+		
+		return moveset;
+	}
+	
 	this.legalMove = function (x1, y1, x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side, grid)){
 			return false;
 		}
-		if(Math.abs(x1 - x2) != Math.abs(y1 - y2)){ //must be diagonal
-			return false;
-		}
-		if(x1 > x2 && y1 > y2){
-			for(var i = x1 - 1, j = y1 - 1; i > x2; i--, j--){
-				if(grid.squares[j][i].piece != null){
-					return false;
-				}
-			}
-		} else if (x1 < x2 && y1 > y2){
-			for(var i = x1 + 1, j = y1 - 1; i < x2; i++, j--){
-				if(grid.squares[j][i].piece != null){
-					return false;
-				}
-			}
-		} else if (x1 > x2 && y1 < y2){
-			for(var i = x1 - 1, j = y1 + 1; i > x2; i--, j++){
-				if(grid.squares[j][i].piece != null){
-					return false;
-				}
-			}
-		} else if (x1 < x2 && y1 < y2){
-			for(var i = x1 + 1, j = y1 + 1; i < x2; i++, j++){
-				if(grid.squares[j][i].piece != null){
-					return false;
-				}
-			}
-		}
-		return true;
+		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
+			return true;
+		} else return false;
 	}
 }
 Bishop.prototype = new Piece;
@@ -166,7 +180,7 @@ function Knight(side){
 		if(emptyOrOpponent(x1 + 2, y1 + 1, this.side, grid)){
 			moveset.push(grid.squares[y1 + 1][x1 + 2]);
 		}
-		alert("exit knight moveset")
+		
 		return moveset;
 	}
 	
