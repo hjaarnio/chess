@@ -28,22 +28,17 @@ function Pawn(side){
 		var moveset = new Array();
 		
 		var direction = -((this.side * 2) - 3);
-		alert(direction)
 		
 		if(y1 == (this.side - 1) * 5 + 1){
-			alert("adding two forward")
 			if(grid.squares[y1 + direction][x1].piece == null && grid.squares[y1 + 2 * direction][x1].piece == null){
-				alert("both empty")
 				moveset.push(grid.squares[y1 + 2 * direction][x1]);
 			}
 		}
 		if(!outsideBoard(x1, y1 + direction, grid) && grid.squares[y1 + direction][x1].piece == null){
-			alert("in front empty")
 			moveset.push(grid.squares[y1 + direction][x1]);
 		}
 		if(!outsideBoard(x1 - 1, y1 + direction, grid) && grid.squares[y1 + direction][x1 - 1].piece != null &&
 			grid.squares[y1 + direction][x1 - 1].piece.side != this.side){
-				alert("left front")
 				moveset.push(grid.squares[y1 + direction][x1 - 1]);
 		}
 		if(!outsideBoard(x1 + 1, y1 + direction, grid) && grid.squares[y1 + direction][x1 + 1].piece != null &&

@@ -11,15 +11,12 @@ function isKingInCheck(side, grid){
 			}
 		}
 	}
-	alert("king at " + x + " " + y)
 	return isSquareInCheck(x, y, side, grid);
 }
 
 function isSquareInCheck(x, y, side, grid){
 	var emptySquare;
 	var inDangerSet = new Array;
-	
-	alert("enter isSquareInCheck")
 	
 	if(grid.squares[y][x].piece == null){
 		emptySquare = true;
@@ -28,7 +25,6 @@ function isSquareInCheck(x, y, side, grid){
 	for(i = 0; i < grid.gridWidth; i++){
 		for(j = 0; j < grid.gridHeight; j++){
 			if(grid.squares[j][i].piece != null && grid.squares[j][i].piece.side != side){
-		//		alert("found " + grid.squares[j][i].piece.type)
 				inDangerSet = inDangerSet.concat(grid.squares[j][i].piece.moveset(i, j, grid));
 			}
 		}
