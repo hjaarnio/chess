@@ -32,16 +32,17 @@ function Grid(){
 			for(j = 0; j < this.gridHeight; j++){
 				if(this.squares[i][j].piece == null){
 					result.squares[i][j].piece = null;
-				}else switch(this.squares[i][j].type){					
-					case "P": result.squares[i][j].piece = new Pawn(this.squares[i][j].side); break;
-					case "R": result.squares[i][j].piece = new Rook(this.squares[i][j].side); break;
-					case "N": result.squares[i][j].piece = new Knight(this.squares[i][j].side); break;
-					case "B": result.squares[i][j].piece = new Bishop(this.squares[i][j].side); break;
-					case "Q": result.squares[i][j].piece = new Queen(this.squares[i][j].side); break;
-					case "K": result.squares[i][j].piece = new King(this.squares[i][j].side); break;
+				}else switch(this.squares[i][j].piece.type){
+					case "P": result.squares[i][j].piece = new Pawn(this.squares[i][j].piece.side); break;
+					case "R": result.squares[i][j].piece = new Rook(this.squares[i][j].piece.side); break;
+					case "N": result.squares[i][j].piece = new Knight(this.squares[i][j].piece.side); break;
+					case "B": result.squares[i][j].piece = new Bishop(this.squares[i][j].piece.side); break;
+					case "Q": result.squares[i][j].piece = new Queen(this.squares[i][j].piece.side); break;
+					case "K": result.squares[i][j].piece = new King(this.squares[i][j].piece.side); break;
 				}
 			}
 		}
+		alert("copy done")
 		return result;
 	}
 }
@@ -71,11 +72,21 @@ function pawnRow(side){
 function move(x1, y1, x2, y2, grid){
 	if (checkValidMove(x1, y1, x2, y2, grid)){
 		if(grid.squares[y1][x1].piece.legalMove(x1, y1, x2, y2, grid)){
-			grid.squares[y1][x1].piece.move(x1, y1, x2, y2, grid);
-			if(whoseMove == 1){
-				whoseMove = 2;
-			} else whoseMove = 1;
-			return true;
+			var gridCopy = grid.copy();
+			gridCopy.squares[y1][x1].piece.move(x1, y1, x2, y2, gridCopy);
+			alert("moved")
+			alert(isKingInCheck(whoseMove, gridCopy))
+			if(!isKingInCheck(whoseMove, gridCopy)){
+				grid.squares[y1][x1].piece.move(x1, y1, x2, y2, grid);
+				if(whoseMove == 1){
+					whoseMove = 2;
+				} else whoseMove = 1;
+				if(isKingInCheck(whoseMove, gridCopy)){
+					alert("check")
+				}
+				return true;
+			}
+			
 		} else {
 			
 		}

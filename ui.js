@@ -57,12 +57,6 @@ function mouseClick(event){
 		selected = null;
 	}
 	draw(primaryGrid);
-	if(isKingInCheck(1, primaryGrid)){
-		alert("black in check")
-	}
-	if(isKingInCheck(2, primaryGrid)){
-		alert("white in check")
-	}
 }
 
 function calculateMouse(axis, x) {
