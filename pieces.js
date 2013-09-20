@@ -17,6 +17,9 @@ function Piece(type, side){
 function containsOwn(x2, y2, side, grid){
 	return grid.squares[y2][x2].piece != null && grid.squares[y2][x2].piece.side == side;
 }
+function emptyOrOpponent(x, y, side, grid){
+	return !outsideBoard(x, y, grid) && (grid.squares[y][x].piece == null || grid.squares[y][x].piece.side != side);
+}
 
 function Pawn(side){
 	Piece.call(this, "P", side);
@@ -136,14 +139,46 @@ Bishop.prototype = new Piece;
 function Knight(side){
 	Piece.call(this, "N", side);
 	
+	this.moveset = function(x1, y1, grid){
+		moveset = new Array();
+		alert("enter knight moveset")
+		
+		if(emptyOrOpponent(x1 - 1, y1 - 2, this.side, grid)){
+			alert("upper left")
+			moveset.push(grid.squares[y1 - 2][x1 - 1]);
+		} alert("first done")
+		if(emptyOrOpponent(x1 + 1, y1 - 2, this.side, grid)){
+			moveset.push(grid.squares[y1 - 2][x1 + 1]);
+		}
+		if(emptyOrOpponent(x1 - 1, y1 + 2, this.side, grid)){
+			moveset.push(grid.squares[y1 + 2][x1 - 1]);
+		}
+		if(emptyOrOpponent(x1 + 1, y1 + 2, this.side, grid)){
+			moveset.push(grid.squares[y1 + 2][x1 + 1]);
+		}
+		if(emptyOrOpponent(x1 - 2, y1 - 1, this.side, grid)){
+			moveset.push(grid.squares[y1 - 1][x1 - 2]);
+		}
+		if(emptyOrOpponent(x1 + 2, y1 - 1, this.side, grid)){
+			moveset.push(grid.squares[y1 - 1][x1 + 2]);
+		}
+		if(emptyOrOpponent(x1 - 2, y1 + 1, this.side, grid)){
+			moveset.push(grid.squares[y1 + 1][x1 - 2]);
+		}
+		if(emptyOrOpponent(x1 + 2, y1 + 1, this.side, grid)){
+			moveset.push(grid.squares[y1 + 1][x1 + 2]);
+		}
+		alert("exit knight moveset")
+		return moveset;
+	}
+	
 	this.legalMove = function (x1, y1, x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side, grid)){
 			return false;
 		}
-		if((Math.abs(x1-x2) == 1 && Math.abs(y1-y2) == 2) ||(Math.abs(x1-x2) == 2 && Math.abs(y1-y2) == 1)){
+		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
-		}
-		return false;
+		} else return false;
 	}
 }
 Knight.prototype = new Piece;
