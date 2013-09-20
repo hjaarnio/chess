@@ -24,25 +24,43 @@ function emptyOrOpponent(x, y, side, grid){
 function Pawn(side){
 	Piece.call(this, "P", side);
 	
-	this.legalMove = function(x1, y1, x2, y2, grid) {
-		var direction = (this.side * 2) - 3;
+	this.moveset = function(x1, y1, grid){
+		var moveset = new Array();
 		
-		if(grid.squares[y2][x2].piece == null){
-			if(x1 == x2 && y1 - y2 == direction){
-			//	alert("normal move")
-				return true;
-			} else if (y1 == (this.side - 1) * 5 + 1 && x1 == x2 && y1 - y2 == direction * 2 
-							&& grid.squares[y1 - direction][x2].piece == null){
-			//	alert("move two")
-				return true;
-			} else {
-			//	alert("illegal move")
-				return false;
-			} //en passant goes here with the form if (x1 - x2 = +-1), y1 - y2 = direction
-		} else if(grid.squares[y2][x2].piece.side != this.side && Math.abs(x1 - x2) == 1){
-			return true;
+		var direction = -((this.side * 2) - 3);
+		alert(direction)
+		
+		if(y1 == (this.side - 1) * 5 + 1){
+			alert("adding two forward")
+			if(grid.squares[y1 + direction][x1].piece == null && grid.squares[y1 + 2 * direction][x1].piece == null){
+				alert("both empty")
+				moveset.push(grid.squares[y1 + 2 * direction][x1]);
+			}
 		}
-		else return false;
+		if(!outsideBoard(x1, y1 + direction, grid) && grid.squares[y1 + direction][x1].piece == null){
+			alert("in front empty")
+			moveset.push(grid.squares[y1 + direction][x1]);
+		}
+		if(!outsideBoard(x1 - 1, y1 + direction, grid) && grid.squares[y1 + direction][x1 - 1].piece != null &&
+			grid.squares[y1 + direction][x1 - 1].piece.side != this.side){
+				alert("left front")
+				moveset.push(grid.squares[y1 + direction][x1 - 1]);
+		}
+		if(!outsideBoard(x1 + 1, y1 + direction, grid) && grid.squares[y1 + direction][x1 + 1].piece != null &&
+			grid.squares[y1 + direction][x1 + 1].piece.side != this.side){
+				moveset.push(grid.squares[y1 + direction][x1 + 1]);
+		}
+		
+		return moveset;
+	}
+	
+	this.legalMove = function(x1, y1, x2, y2, grid) {
+		if(containsOwn(x2, y2, this.side, grid)){
+			return false;
+		}
+		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
+			return true;
+		} else return false;
 		
 	}
 }
