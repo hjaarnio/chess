@@ -141,12 +141,10 @@ function Knight(side){
 	
 	this.moveset = function(x1, y1, grid){
 		moveset = new Array();
-		alert("enter knight moveset")
 		
 		if(emptyOrOpponent(x1 - 1, y1 - 2, this.side, grid)){
-			alert("upper left")
 			moveset.push(grid.squares[y1 - 2][x1 - 1]);
-		} alert("first done")
+		}
 		if(emptyOrOpponent(x1 + 1, y1 - 2, this.side, grid)){
 			moveset.push(grid.squares[y1 - 2][x1 + 1]);
 		}
