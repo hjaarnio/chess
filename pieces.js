@@ -152,15 +152,29 @@ function King(side){
 	Piece.call(this, "K", side);
 	this.hasMoved = false;
 	
+	this.moveset = function(x1, y1, grid){
+		var moveset = new Array();
+		
+		for(x = x1 - 1; x <= x1 + 1; x++){
+			for(y = y1 - 1; y <= y1 + 1; y++){
+				if(!outsideBoard(x, y, grid) && (grid.squares[y][x].piece == null || grid.squares[y][x].piece.side != this.side)){
+					moveset.push(grid.squares[y][x])
+				}
+			}
+		}
+		
+		return moveset;
+	}
+	
 	this.legalMove = function (x1, y1, x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side, grid)){
 			return false;
 		}
-		if(Math.abs(x1-x2) <= 1 && Math.abs(y1-y2) <= 1){
+		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
-		}
-		return false;
+		} else return false;
 	}
+	
 	this.move = function(x1, y1, x2, y2, grid){
 		this.hasMoved = true;
 		this.__proto__.move(x1, y1, x2, y2, grid);
@@ -172,12 +186,8 @@ function Queen(side){
 	Piece.call(this, "Q", side);
 	
 	this.moveset = function(x1, y1, grid){
-		alert("enter moveset")
 		moveset = new Array();
-		
-		alert("array made" + grid.squares[0][x1])
-		
-		alert(!outsideBoard(x1, y1+1, grid))
+				
 		var x, y;
 		//between each check if the piece in way is enemy, in which case allow capturing it
 		
