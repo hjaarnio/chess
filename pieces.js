@@ -27,9 +27,9 @@ function Pawn(side){
 	this.moveset = function(x1, y1, grid){
 		var moveset = new Array();
 		
-		var direction = -((this.side * 2) - 3);
+		var direction = -((this.side * 2) - 1);
 		
-		if(y1 == (this.side - 1) * 5 + 1){
+		if(y1 == this.side * 5 + 1){
 			if(grid.squares[y1 + direction][x1].piece == null && grid.squares[y1 + 2 * direction][x1].piece == null){
 				moveset.push(grid.squares[y1 + 2 * direction][x1]);
 			}

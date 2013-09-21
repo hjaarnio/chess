@@ -11,7 +11,7 @@ function draw(grid){
 				if(selected != null && selected.y == i && selected.x == j){
 					output += "<b>";
 				}
-				if(grid.squares[i][j].piece.side == 1){
+				if(grid.squares[i][j].piece.side == 0){
 					output += grid.squares[i][j].piece.type.toLowerCase();
 				}
 				else {

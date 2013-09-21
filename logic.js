@@ -1,5 +1,5 @@
 var primaryGrid;
-var whoseMove = 2;
+var whoseMove = 1;
 
 function init(){
 	primaryGrid = new Grid();
@@ -20,10 +20,10 @@ function Grid(){
 		}
 	}
 	
-	this.squares[0] = kingRow(1);
-	this.squares[1] = pawnRow(1);
-	this.squares[6] = pawnRow(2);
-	this.squares[7] = kingRow(2);
+	this.squares[0] = kingRow(0);
+	this.squares[1] = pawnRow(0);
+	this.squares[6] = pawnRow(1);
+	this.squares[7] = kingRow(1);
 	
 	
 	this.copy = function(){ //returns a copy of the grid
@@ -79,7 +79,7 @@ function move(x1, y1, x2, y2, grid){
 			if(!isKingInCheck(whoseMove, gridCopy)){
 				grid.squares[y1][x1].piece.move(x1, y1, x2, y2, grid);
 				if(whoseMove == 1){
-					whoseMove = 2;
+					whoseMove = 0;
 				} else whoseMove = 1;
 				if(isKingInCheck(whoseMove, gridCopy)){
 					alert("check")
