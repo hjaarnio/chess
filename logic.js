@@ -10,6 +10,9 @@ function Grid(){
 	
 	this.gridWidth = 8;
 	this.gridHeight = 8;
+	
+	//needed to check en passant but might prove useful later too
+	this.currentMove = 0;
 
 	this.squares = new Array(this.gridWidth);
 	
@@ -51,8 +54,8 @@ function kingRow(side){
 	row[0].piece = new Rook(side);
 	row[1].piece = new Knight(side);
 	row[2].piece = new Bishop(side);
-	row[3].piece = new King(side);
-	row[4].piece = new Queen(side);
+	row[3].piece = new Queen(side);
+	row[4].piece = new King(side);
 	row[5].piece = new Bishop(side);
 	row[6].piece = new Knight(side);
 	row[7].piece = new Rook(side);
@@ -81,6 +84,7 @@ function move(x1, y1, x2, y2, grid){
 				if(isKingInCheck(whoseMove, gridCopy)){
 					alert("check")
 				}
+				grid.currentMove++;
 				return true;
 			}
 			

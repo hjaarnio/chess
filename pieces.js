@@ -24,6 +24,10 @@ function emptyOrOpponent(x, y, side, grid){
 function Pawn(side){
 	Piece.call(this, "P", side);
 	
+	//these are needed to check conditions for en passant
+	this.timesMoved = 0;
+	this.lastMovedOn = 0;
+	
 	this.moveset = function(x1, y1, grid){
 		var moveset = new Array();
 		
@@ -55,8 +59,26 @@ function Pawn(side){
 		}
 		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
+		}
+		//check en passant and return true if it applies
+		if(y1 == 4 - this.side && grid.squares[y1][x2].piece != null && 
+				grid.squares[y1][x2].piece.type == "P" && grid.squares[y1][x2].piece.timesMoved == 1
+				&& grid.squares[y1][x2].piece.lastMovedOn + 1 == grid.currentMove){
+					return true;
 		} else return false;
+	}
+	
+	this.move = function(x1, y1, x2, y2, grid){
+		this.timesMoved++;
+		this.lastMovedOn = grid.currentMove;
 		
+		if(y1 == 4 - this.side && grid.squares[y1][x2].piece != null &&
+			grid.squares[y1][x2].piece.type == "P" && grid.squares[y1][x2].piece.timesMoved == 1){
+				alert("en passant")
+				grid.squares[y1][x2].piece = null;
+		}
+		grid.squares[y2][x2].piece = grid.squares[y1][x1].piece;
+		grid.squares[y1][x1].piece = null;		
 	}
 }
 Pawn.prototype = new Piece;
@@ -237,27 +259,27 @@ function King(side){
 		}
 		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
-		}else if(!this.hasMoved && y2 == y1 && x2 == 1 && grid.squares[y2][0].piece != null &&
+		}else if(!this.hasMoved && y2 == y1 && x2 == 2 && grid.squares[y2][0].piece != null &&
 			grid.squares[y2][0].piece.type == "R" && !grid.squares[y2][0].piece.hasMoved &&
-			grid.squares[y2][1].piece == null && grid.squares[y2][2].piece == null &&
-			!isSquareInCheck(1, y2, this.side, grid) && !isSquareInCheck(2, y2, this.side, grid) && !isSquareInCheck(3, y2, this.side, grid)){
+			grid.squares[y2][1].piece == null && grid.squares[y2][2].piece == null && grid.squares[y2][3].piece == null &&
+			!isSquareInCheck(2, y2, this.side, grid) && !isSquareInCheck(3, y2, this.side, grid) && !isSquareInCheck(4, y2, this.side, grid)){
 				return true;
-		} else if(!this.hasMoved && y2 == y1 && x2 == 5 && grid.squares[y2][7].piece != null &&
+		} else if(!this.hasMoved && y2 == y1 && x2 == 6 && grid.squares[y2][7].piece != null &&
 			grid.squares[y2][7].piece.type == "R" && !grid.squares[y2][7].piece.hasMoved &&
-			grid.squares[y2][6].piece == null && grid.squares[y2][5].piece == null && grid.squares[y2][4].piece == null &&
-			!isSquareInCheck(5, y2, this.side, grid) && !isSquareInCheck(4, y2, this.side, grid) && !isSquareInCheck(3, y2, this.side, grid)){
+			grid.squares[y2][6].piece == null && grid.squares[y2][5].piece == null &&
+			!isSquareInCheck(6, y2, this.side, grid) && !isSquareInCheck(5, y2, this.side, grid) && !isSquareInCheck(4, y2, this.side, grid)){
 				return true;
 		} else return false;
 		
 	} 
 	
 	this.move = function(x1, y1, x2, y2, grid){
-		if(!this.hasMoved && x2 == 1 && y1 == y2){ // move won't get called unless legalMove with stricter rules has been passed'
-			grid.squares[y2][2].piece = grid.squares[y2][0].piece;
+		if(!this.hasMoved && x2 == 2 && y1 == y2){ // move won't get called unless legalMove with stricter rules has been passed
+			grid.squares[y2][3].piece = grid.squares[y2][0].piece;
 			grid.squares[y2][0].piece = null;
-		} else if(!this.hasMoved && x2 == 5 && y1 == y2){
-			grid.squares[y2][4].piece = grid.squares[y2][7].piece;
-			grid.squares[y2][4].piece = null;
+		} else if(!this.hasMoved && x2 == 6 && y1 == y2){
+			grid.squares[y2][5].piece = grid.squares[y2][7].piece;
+			grid.squares[y2][7].piece = null;
 		}
 		this.hasMoved = true;
 		
