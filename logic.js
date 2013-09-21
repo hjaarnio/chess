@@ -42,7 +42,6 @@ function Grid(){
 				}
 			}
 		}
-		alert("copy done")
 		return result;
 	}
 }
@@ -74,8 +73,6 @@ function move(x1, y1, x2, y2, grid){
 		if(grid.squares[y1][x1].piece.legalMove(x1, y1, x2, y2, grid)){
 			var gridCopy = grid.copy();
 			gridCopy.squares[y1][x1].piece.move(x1, y1, x2, y2, gridCopy);
-			alert("moved")
-			alert(isKingInCheck(whoseMove, gridCopy))
 			if(!isKingInCheck(whoseMove, gridCopy)){
 				grid.squares[y1][x1].piece.move(x1, y1, x2, y2, grid);
 				if(whoseMove == 1){
