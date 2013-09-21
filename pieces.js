@@ -72,9 +72,8 @@ function Pawn(side){
 		this.timesMoved++;
 		this.lastMovedOn = grid.currentMove;
 		
-		if(y1 == 4 - this.side && grid.squares[y1][x2].piece != null &&
+		if(x1 != x2 && y1 == 4 - this.side && grid.squares[y1][x2].piece != null &&
 			grid.squares[y1][x2].piece.type == "P" && grid.squares[y1][x2].piece.timesMoved == 1){
-				alert("en passant")
 				grid.squares[y1][x2].piece = null;
 		}
 		grid.squares[y2][x2].piece = grid.squares[y1][x1].piece;
