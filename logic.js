@@ -78,10 +78,11 @@ function move(x1, y1, x2, y2, grid){
 			gridCopy.squares[y1][x1].piece.move(x1, y1, x2, y2, gridCopy);
 			if(!isKingInCheck(whoseMove, gridCopy)){
 				grid.squares[y1][x1].piece.move(x1, y1, x2, y2, grid);
+				checkPawns(whoseMove, grid);
 				if(whoseMove == 1){
 					whoseMove = 0;
 				} else whoseMove = 1;
-				if(isKingInCheck(whoseMove, gridCopy)){
+				if(isKingInCheck(whoseMove, grid)){
 					alert("check")
 				}
 				grid.currentMove++;
@@ -115,4 +116,13 @@ function checkValidMove(x1, y1, x2, y2, grid){
 
 function outsideBoard(x, y, grid){
 	return (x < 0 || x >= grid.gridWidth || y < 0 || y >= grid.gridHeight);
+}
+
+function checkPawns(side, grid){
+	for(i = 0; i < grid.gridWidth; i++){
+		if(grid.squares[-(side - 1) * 7][i].piece != null && grid.squares[-(side - 1) * 7][i].piece.type == "P"){
+			alert("found pawn")
+			grid.squares[-(side - 1) * 7][i].piece = new Queen(side);
+		}
+	}
 }
