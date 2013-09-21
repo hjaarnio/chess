@@ -22,7 +22,7 @@ function emptyOrOpponent(x, y, side, grid){
 }
 
 function Pawn(side){
-	Piece.call(this, "P", side);
+	Piece.call(this, 0, side);
 	
 	//these are needed to check conditions for en passant
 	this.timesMoved = 0;
@@ -62,7 +62,7 @@ function Pawn(side){
 		}
 		//check en passant and return true if it applies
 		if(y1 == 4 - this.side && grid.squares[y1][x2].piece != null && 
-				grid.squares[y1][x2].piece.type == "P" && grid.squares[y1][x2].piece.timesMoved == 1
+				grid.squares[y1][x2].piece.type == 0 && grid.squares[y1][x2].piece.timesMoved == 1
 				&& grid.squares[y1][x2].piece.lastMovedOn + 1 == grid.currentMove){
 					return true;
 		} else return false;
@@ -73,7 +73,7 @@ function Pawn(side){
 		this.lastMovedOn = grid.currentMove;
 		
 		if(x1 != x2 && y1 == 4 - this.side && grid.squares[y1][x2].piece != null &&
-			grid.squares[y1][x2].piece.type == "P" && grid.squares[y1][x2].piece.timesMoved == 1){
+			grid.squares[y1][x2].piece.type == 0 && grid.squares[y1][x2].piece.timesMoved == 1){
 				grid.squares[y1][x2].piece = null;
 		}
 		grid.squares[y2][x2].piece = grid.squares[y1][x1].piece;
@@ -83,7 +83,7 @@ function Pawn(side){
 Pawn.prototype = new Piece;
 
 function Rook(side){
-	Piece.call(this, "R", side);
+	Piece.call(this, 1, side);
 	
 	this.moveset = function(x1, y1, grid){
 		moveset = new Array();
@@ -140,7 +140,7 @@ Rook.prototype = new Piece;
 
 
 function Bishop(side){
-	Piece.call(this, "B", side);
+	Piece.call(this, 2, side);
 	
 	this.moveset = function(x1, y1, grid){
 		moveset = new Array();
@@ -190,7 +190,7 @@ function Bishop(side){
 Bishop.prototype = new Piece;
 
 function Knight(side){
-	Piece.call(this, "N", side);
+	Piece.call(this, 3, side);
 	
 	this.moveset = function(x1, y1, grid){
 		moveset = new Array();
@@ -235,7 +235,7 @@ function Knight(side){
 Knight.prototype = new Piece;
 
 function King(side){
-	Piece.call(this, "K", side);
+	Piece.call(this, 5, side);
 	this.hasMoved = false;
 	
 	this.moveset = function(x1, y1, grid){
@@ -259,12 +259,12 @@ function King(side){
 		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
 		}else if(!this.hasMoved && y2 == y1 && x2 == 2 && grid.squares[y2][0].piece != null &&
-			grid.squares[y2][0].piece.type == "R" && !grid.squares[y2][0].piece.hasMoved &&
+			grid.squares[y2][0].piece.type == 1 && !grid.squares[y2][0].piece.hasMoved &&
 			grid.squares[y2][1].piece == null && grid.squares[y2][2].piece == null && grid.squares[y2][3].piece == null &&
 			!isSquareInCheck(2, y2, this.side, grid) && !isSquareInCheck(3, y2, this.side, grid) && !isSquareInCheck(4, y2, this.side, grid)){
 				return true;
 		} else if(!this.hasMoved && y2 == y1 && x2 == 6 && grid.squares[y2][7].piece != null &&
-			grid.squares[y2][7].piece.type == "R" && !grid.squares[y2][7].piece.hasMoved &&
+			grid.squares[y2][7].piece.type == 1 && !grid.squares[y2][7].piece.hasMoved &&
 			grid.squares[y2][6].piece == null && grid.squares[y2][5].piece == null &&
 			!isSquareInCheck(6, y2, this.side, grid) && !isSquareInCheck(5, y2, this.side, grid) && !isSquareInCheck(4, y2, this.side, grid)){
 				return true;
@@ -289,7 +289,7 @@ function King(side){
 King.prototype = new Piece;
 
 function Queen(side){
-	Piece.call(this, "Q", side);
+	Piece.call(this, 4, side);
 	
 	this.moveset = function(x1, y1, grid){
 		moveset = new Array();

@@ -36,12 +36,12 @@ function Grid(){
 				if(this.squares[i][j].piece == null){
 					result.squares[i][j].piece = null;
 				}else switch(this.squares[i][j].piece.type){
-					case "P": result.squares[i][j].piece = new Pawn(this.squares[i][j].piece.side); break;
-					case "R": result.squares[i][j].piece = new Rook(this.squares[i][j].piece.side); break;
-					case "N": result.squares[i][j].piece = new Knight(this.squares[i][j].piece.side); break;
-					case "B": result.squares[i][j].piece = new Bishop(this.squares[i][j].piece.side); break;
-					case "Q": result.squares[i][j].piece = new Queen(this.squares[i][j].piece.side); break;
-					case "K": result.squares[i][j].piece = new King(this.squares[i][j].piece.side); break;
+					case 0: result.squares[i][j].piece = new Pawn(this.squares[i][j].piece.side); break;
+					case 1: result.squares[i][j].piece = new Rook(this.squares[i][j].piece.side); break;
+					case 3: result.squares[i][j].piece = new Knight(this.squares[i][j].piece.side); break;
+					case 2: result.squares[i][j].piece = new Bishop(this.squares[i][j].piece.side); break;
+					case 4: result.squares[i][j].piece = new Queen(this.squares[i][j].piece.side); break;
+					case 5: result.squares[i][j].piece = new King(this.squares[i][j].piece.side); break;
 				}
 			}
 		}
@@ -120,7 +120,7 @@ function outsideBoard(x, y, grid){
 
 function checkPawns(side, grid){
 	for(i = 0; i < grid.gridWidth; i++){
-		if(grid.squares[-(side - 1) * 7][i].piece != null && grid.squares[-(side - 1) * 7][i].piece.type == "P"){
+		if(grid.squares[-(side - 1) * 7][i].piece != null && grid.squares[-(side - 1) * 7][i].piece.type == 0){
 			alert("found pawn")
 			grid.squares[-(side - 1) * 7][i].piece = new Queen(side);
 		}

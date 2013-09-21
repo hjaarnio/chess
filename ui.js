@@ -3,6 +3,8 @@ var squareWidth = document.getElementById("dummy").clientWidth / 8,
 	
 var selected = null;
 
+var pieces = [["p", "r", "b", "n", "q", "k"] , ["P", "R", "B", "N", "Q", "K"]];
+
 function draw(grid){
 	var output = "";
 	for (var i = 0; i < grid.gridWidth; i++){
@@ -11,12 +13,7 @@ function draw(grid){
 				if(selected != null && selected.y == i && selected.x == j){
 					output += "<b>";
 				}
-				if(grid.squares[i][j].piece.side == 0){
-					output += grid.squares[i][j].piece.type.toLowerCase();
-				}
-				else {
-					output += grid.squares[i][j].piece.type;
-				}
+				output += pieces[grid.squares[i][j].piece.side][grid.squares[i][j].piece.type];
 				if(selected != null && selected.y == i && selected.x == j){
 					output += "</b>";
 				}

@@ -5,7 +5,7 @@ function isKingInCheck(side, grid){
 	var x, y; //location of king
 	for(i = 0; i < grid.gridWidth; i++){
 		for(j = 0; j < grid.gridHeight; j++){
-			if(grid.squares[i][j].piece != null && grid.squares[i][j].piece.side == side && grid.squares[i][j].piece.type == "K"){
+			if(grid.squares[i][j].piece != null && grid.squares[i][j].piece.side == side && grid.squares[i][j].piece.type == 5){
 				x = j; y = i;
 				break;
 			}
