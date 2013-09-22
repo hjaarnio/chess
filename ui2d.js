@@ -1,5 +1,5 @@
 var squareWidth = 64;
-	squareHeight = 32;
+	squareHeight = 64;
 	
 var selected = null;
 
