@@ -52,7 +52,7 @@ function mouseClick(event){
 	
 	//alert(x + " " + y);
 	
-	if(selected == null && primaryGrid.squares[y][x] != null){
+	if(selected == null && primaryGrid.squares[y][x].piece != null){
 		selected = {x: x , y: y};
 	} else {
 		move(selected.x, selected.y, x, y, primaryGrid);

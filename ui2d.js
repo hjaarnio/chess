@@ -35,6 +35,7 @@ function initUI(){
 
 function draw(grid){
 	drawBoard(grid);
+	drawSelected(grid);
 	drawPieces(grid);
 }
 
@@ -64,19 +65,33 @@ function drawPieces(grid){
 	}
 }
 
+function drawSelected(grid){
+	ctx2.clearRect(0, 0, c2.width, c2.height);
+	if(selected != null){
+		var gradient = ctx2.createRadialGradient((selected.x + 0.5) * squareWidth, (selected.y  + 0.5) * squareHeight, squareWidth / 4,
+									(selected.x + 0.5) * squareWidth, (selected.y  + 0.5) * squareHeight, squareWidth / 2);
+		gradient.addColorStop(0, "yellow");
+		gradient.addColorStop(1, "transparent");
+		ctx2.fillStyle = gradient;
+		ctx2.fillRect(selected.x * squareWidth, selected.y * squareHeight, squareWidth, squareHeight);
+	}
+	
+}
+
 function mouseClick(event){
 	var x = calculateMouse("x", event.clientX - document.getElementById("ui").offsetLeft);
 	var y = calculateMouse("y", event.clientY - document.getElementById("ui").offsetTop);
 	
 	//alert(x + " " + y);
 	
-	if(selected == null && primaryGrid.squares[y][x] != null){
+	if(selected == null && primaryGrid.squares[y][x].piece != null){
 		selected = {x: x , y: y};
 	} else {
 		move(selected.x, selected.y, x, y, primaryGrid);
 		selected = null;
+		drawPieces(primaryGrid);
 	}
-	draw(primaryGrid);
+	drawSelected(primaryGrid);
 }
 
 function calculateMouse(axis, x) {
