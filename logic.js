@@ -84,7 +84,7 @@ function move(x1, y1, x2, y2, grid){
 					whoseMove = 0;
 				} else whoseMove = 1;
 				if(isKingInCheck(whoseMove, grid)){
-					alert("check")
+					warning("Check.");
 				}
 				grid.currentMove++;
 				return true;
@@ -110,7 +110,7 @@ function checkValidMove(x1, y1, x2, y2, grid){
 	if(grid.squares[y1][x1].piece != null && grid.squares[y1][x1].piece.side == whoseMove){
 		return true;
 	} else {
-		alert("wrong turn")
+		warning("Wrong turn");
 		return false;
 	}	
 }
@@ -122,7 +122,6 @@ function outsideBoard(x, y, grid){
 function checkPawns(side, grid){
 	for(i = 0; i < grid.gridWidth; i++){
 		if(grid.squares[-(side - 1) * 7][i].piece != null && grid.squares[-(side - 1) * 7][i].piece.type == 0){
-			alert("found pawn")
 			grid.squares[-(side - 1) * 7][i].piece = new Queen(side);
 		}
 	}

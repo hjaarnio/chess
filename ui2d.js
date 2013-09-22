@@ -104,3 +104,14 @@ function calculateMouse(axis, x) {
 	else if(axis == "y")
 		return parseInt(x / squareHeight);
 }
+
+var popup = document.getElementById("popup");
+function warning(message){
+	popup.textContent = message;
+	if (warning.timer) 
+        window.clearTimeout(warning.timer);
+    warning.timer = setTimeout(function(){
+        popup.textContent = "";
+    }, 1000);
+}
+window.warning = warning;
