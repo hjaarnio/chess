@@ -8,23 +8,25 @@ var pieceWidth = 64,
 	pieceHeight = 128;
 var pieceImg;
 
+var bX = 32, bY = 64; //border around the board
+
 var c1, c2, c3, ctx1, ctx2, ctx3;
 
 function initUI(){
 	c1 = document.getElementById("uiBoard");
 	ctx1 = c1.getContext("2d");
-	c1.width = 8 * squareWidth;
-	c1.height = 8 * squareHeight;
+	c1.width = 8 * squareWidth + 2 * bX;
+	c1.height = 8 * squareHeight + 2 * bY;
 	
 	c2 = document.getElementById("uiSelection");
 	ctx2 = c2.getContext("2d");
-	c2.width = 8 * squareWidth;
-	c2.height = 8 * squareHeight;
+	c2.width = 8 * squareWidth + 2 * bX;
+	c2.height = 8 * squareHeight + 2 * bY;
 	
 	c3 = document.getElementById("uiPieces");
 	ctx3 = c3.getContext("2d");
-	c3.width = 8 * squareWidth;
-	c3.height = 8 * squareHeight;
+	c3.width = 8 * squareWidth + 2 * bX;
+	c3.height = 8 * squareHeight + 2 * bY;
 	
 	pieceImg = new Image();
 	pieceImg.onload = function(){
@@ -47,9 +49,10 @@ function drawBoard(grid){
 	 		} else {
 	 			ctx1.fillStyle = "white";
 	 		}
-	 		ctx1.fillRect(i * squareWidth, j * squareHeight, squareWidth, squareHeight);
+	 		ctx1.fillRect(i * squareWidth + bX, j * squareHeight + bY, squareWidth, squareHeight);
 	 	}
 	 }
+	 ctx1.strokeRect(bX, bY, grid.gridWidth * squareWidth, grid.gridHeight * squareHeight);
 }
 
 function drawPieces(grid){
@@ -59,7 +62,7 @@ function drawPieces(grid){
 	 		if(grid.squares[j][i].piece != null){
 	 			ctx3.drawImage(pieceImg,
 	 				grid.squares[j][i].piece.type * pieceWidth, grid.squares[j][i].piece.side * pieceHeight, pieceWidth, pieceHeight,
-	 				i * squareWidth, j * squareHeight + (squareHeight - pieceHeight), squareWidth, pieceHeight);
+	 				i * squareWidth + bX, j * squareHeight + (squareHeight - pieceHeight) + bY, squareWidth, pieceHeight);
 	 		}
 	 	}
 	}
@@ -68,19 +71,20 @@ function drawPieces(grid){
 function drawSelected(grid){
 	ctx2.clearRect(0, 0, c2.width, c2.height);
 	if(selected != null){
-		var gradient = ctx2.createRadialGradient((selected.x + 0.5) * squareWidth, (selected.y  + 0.5) * squareHeight, squareWidth / 4,
-									(selected.x + 0.5) * squareWidth, (selected.y  + 0.5) * squareHeight, squareWidth / 2);
+		var gradient = ctx2.createRadialGradient(
+									(selected.x + 0.5) * squareWidth + bX, (selected.y  + 0.5) * squareHeight + bY, squareWidth / 4,
+									(selected.x + 0.5) * squareWidth + bX, (selected.y  + 0.5) * squareHeight + bY, squareWidth / 2);
 		gradient.addColorStop(0, "yellow");
 		gradient.addColorStop(1, "transparent");
 		ctx2.fillStyle = gradient;
-		ctx2.fillRect(selected.x * squareWidth, selected.y * squareHeight, squareWidth, squareHeight);
+		ctx2.fillRect(selected.x * squareWidth + bX, selected.y * squareHeight + bY, squareWidth, squareHeight);
 	}
 	
 }
 
 function mouseClick(event){
-	var x = calculateMouse("x", event.clientX - document.getElementById("ui").offsetLeft);
-	var y = calculateMouse("y", event.clientY - document.getElementById("ui").offsetTop);
+	var x = calculateMouse("x", event.clientX - document.getElementById("ui").offsetLeft - bX);
+	var y = calculateMouse("y", event.clientY - document.getElementById("ui").offsetTop - bY);
 	
 	//alert(x + " " + y);
 	
