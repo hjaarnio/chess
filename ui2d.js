@@ -1,11 +1,11 @@
 var squareWidth = 64;
-	squareHeight = 64;
+	squareHeight = 32;
 	
 var selected = null;
 
-var pieceSrc = 'assets/pieces.png';
+var pieceSrc = 'assets/pieces2.png';
 var pieceWidth = 64,
-	pieceHeight = 64;
+	pieceHeight = 128;
 var pieceImg;
 
 var c1, c2, c3, ctx1, ctx2, ctx3;
@@ -59,7 +59,7 @@ function drawPieces(grid){
 	 		if(grid.squares[j][i].piece != null){
 	 			ctx3.drawImage(pieceImg,
 	 				grid.squares[j][i].piece.type * pieceWidth, grid.squares[j][i].piece.side * pieceHeight, pieceWidth, pieceHeight,
-	 				i * squareWidth, j * squareHeight, squareWidth, squareHeight);
+	 				i * squareWidth, j * squareHeight + (squareHeight - pieceHeight), squareWidth, pieceHeight);
 	 		}
 	 	}
 	}
