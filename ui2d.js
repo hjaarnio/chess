@@ -92,6 +92,7 @@ function mouseClick(event){
 		selected = {x: x , y: y};
 	} else {
 		move(selected.x, selected.y, x, y, primaryGrid);
+		updateText(selected.x, selected.y, x, y, primaryGrid);
 		selected = null;
 		drawPieces(primaryGrid);
 	}
@@ -105,13 +106,15 @@ function calculateMouse(axis, x) {
 		return parseInt(x / squareHeight);
 }
 
-var popup = document.getElementById("popup");
-function warning(message){
-	popup.textContent = message;
-	if (warning.timer) 
-        window.clearTimeout(warning.timer);
-    warning.timer = setTimeout(function(){
-        popup.textContent = "";
-    }, 1000);
+function updateText(x1, y1, x2, y2){
+	document.getElementById("lastMove").textContent = convertMoveToNotation(x1, y1, x2, y2);
 }
-window.warning = warning;
+
+function textInput(){
+	moves = convertNotationToMove(document.getElementById("input").value);
+	move(moves[0], moves[1], moves[2], moves[3], primaryGrid);
+	updateText(moves[0], moves[1], moves[2], moves[3]);
+	drawPieces(primaryGrid);
+	drawSelected(primaryGrid);
+	document.getElementById("input").value = "";
+}

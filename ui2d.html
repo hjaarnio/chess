@@ -3,7 +3,7 @@
 	<title>chess, 2d ui</title>
 	
 	<body id="myBody" onkeydown="">
-		<div id="ui" onclick= "mouseClick(event)"> 
+		<div id="ui" onclick= "mouseClick(event)" style="width: 576; height: 640"> 
 			<canvas id="uiBoard" style="position: absolute; z-index: 0">
 			</canvas>
 			<canvas id="uiSelection" style="position: absolute; z-index: 1">
@@ -12,11 +12,14 @@
 			</canvas>
 			<div id="popup" style="position: absolute;top: 30%;text-align: center;width: 576; color: red"></div>
 		</div>
+		<div id="lastMove"> </div> <input type= "text" id= "input" /> <button onclick="textInput()"> input </button>
+		
 		
 		<script id="pieces" type="text/javascript" src="pieces.js"></script>
 		<script id="logic" type="text/javascript" src="logic.js"></script>
 		<script id="kingLogic" type="text/javascript" src="kingCheckLogic.js"></script>
 		<script id="ui2dScript" type="text/javascript" src="ui2d.js"></script>
+		<script id="uiUtils" type="text/javascript" src="uiUtils.js"></script>
 		<script type="text/javascript">
 			init();
 		</script>	
