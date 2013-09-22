@@ -1,32 +1,67 @@
-var squareWidth = document.getElementById("dummy").clientWidth / 8,
-	squareHeight = document.getElementById("dummy").clientHeight;
+var squareWidth = 64;
+	squareHeight = 64;
 	
 var selected = null;
 
-//var pieces = [["p", "r", "b", "n", "q", "k"] , ["P", "R", "B", "N", "Q", "K"]];
-var pieces = [["&#9823", "&#9820", "&#9821", "&#9822", "&#9819", "&#9818"] , ["&#9817", "&#9814", "&#9815", "&#9816", "&#9813", "&#9812"]];
+var pieceSrc = 'assets/pieces.png';
+var pieceWidth = 64,
+	pieceHeight = 64;
+var pieceImg;
+
+var c1, c2, c3, ctx1, ctx2, ctx3;
+
+function initUI(){
+	c1 = document.getElementById("uiBoard");
+	ctx1 = c1.getContext("2d");
+	c1.width = 8 * squareWidth;
+	c1.height = 8 * squareHeight;
+	
+	c2 = document.getElementById("uiSelection");
+	ctx2 = c2.getContext("2d");
+	c2.width = 8 * squareWidth;
+	c2.height = 8 * squareHeight;
+	
+	c3 = document.getElementById("uiPieces");
+	ctx3 = c3.getContext("2d");
+	c3.width = 8 * squareWidth;
+	c3.height = 8 * squareHeight;
+	
+	pieceImg = new Image();
+	pieceImg.onload = function(){
+		draw(primaryGrid);
+	}
+	pieceImg.src = pieceSrc;
+}
 
 function draw(grid){
-	var output = "";
-	for (var i = 0; i < grid.gridWidth; i++){
-		for (var j = 0; j < grid.gridHeight; j++){
-			if (grid.squares[i][j].piece != null){
-				if(selected != null && selected.y == i && selected.x == j){
-					output += "<FONT style='BACKGROUND-COLOR: yellow'>";
-				}
-				output += pieces[grid.squares[i][j].piece.side][grid.squares[i][j].piece.type];
-				if(selected != null && selected.y == i && selected.x == j){
-					output += "</FONT>";
-				}
-				
-			} else {
-				output += ".";
-			}
-			output += " ";
-		}
-		output += "<br>";
+	drawBoard(grid);
+	drawPieces(grid);
+}
+
+function drawBoard(grid){
+	 for(i = 0; i < grid.gridWidth; i++){
+	 	for(j = 0; j < grid.gridHeight; j++){
+	 		if((i +j ) % 2 == 1){
+	 			ctx1.fillStyle = "black";
+	 		} else {
+	 			ctx1.fillStyle = "white";
+	 		}
+	 		ctx1.fillRect(i * squareWidth, j * squareHeight, squareWidth, squareHeight);
+	 	}
+	 }
+}
+
+function drawPieces(grid){
+	ctx3.clearRect(0, 0, c3.width, c3.height);
+	for(i = 0; i < grid.gridWidth; i++){
+	 	for(j = 0; j < grid.gridHeight; j++){
+	 		if(grid.squares[j][i].piece != null){
+	 			ctx3.drawImage(pieceImg,
+	 				grid.squares[j][i].piece.type * pieceWidth, grid.squares[j][i].piece.side * pieceHeight, pieceWidth, pieceHeight,
+	 				i * squareWidth, j * squareHeight, squareWidth, squareHeight);
+	 		}
+	 	}
 	}
-	document.getElementById("ui").innerHTML = output;
 }
 
 function mouseClick(event){

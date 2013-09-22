@@ -6,6 +6,10 @@ var selected = null;
 //var pieces = [["p", "r", "b", "n", "q", "k"] , ["P", "R", "B", "N", "Q", "K"]];
 var pieces = [["&#9823", "&#9820", "&#9821", "&#9822", "&#9819", "&#9818"] , ["&#9817", "&#9814", "&#9815", "&#9816", "&#9813", "&#9812"]];
 
+function initUI(){
+	
+}
+
 function draw(grid){
 	var output = "";
 	for (var i = 0; i < grid.gridWidth; i++){

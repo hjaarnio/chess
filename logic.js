@@ -3,6 +3,7 @@ var whoseMove = 1;
 
 function init(){
 	primaryGrid = new Grid();
+	initUI();
 }
 
 
