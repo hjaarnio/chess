@@ -1,5 +1,5 @@
 var squareWidth = 64;
-	squareHeight = 64;
+	squareHeight = 56;
 	
 var selected = null;
 
@@ -16,17 +16,17 @@ function initUI(){
 	c1 = document.getElementById("uiBoard");
 	ctx1 = c1.getContext("2d");
 	c1.width = 8 * squareWidth + 2 * bX;
-	c1.height = 8 * squareHeight + 2 * bY;
+	c1.height = 8 * squareHeight + bY;
 	
 	c2 = document.getElementById("uiSelection");
 	ctx2 = c2.getContext("2d");
 	c2.width = 8 * squareWidth + 2 * bX;
-	c2.height = 8 * squareHeight + 2 * bY;
+	c2.height = 8 * squareHeight + bY;
 	
 	c3 = document.getElementById("uiPieces");
 	ctx3 = c3.getContext("2d");
 	c3.width = 8 * squareWidth + 2 * bX;
-	c3.height = 8 * squareHeight + 2 * bY;
+	c3.height = 8 * squareHeight + bY;
 	
 	pieceImg = new Image();
 	pieceImg.onload = function(){
@@ -73,11 +73,12 @@ function drawSelected(grid){
 	if(selected != null){
 		var gradient = ctx2.createRadialGradient(
 									(selected.x + 0.5) * squareWidth + bX, (selected.y  + 0.5) * squareHeight + bY, squareWidth / 4,
-									(selected.x + 0.5) * squareWidth + bX, (selected.y  + 0.5) * squareHeight + bY, squareWidth / 2);
+									(selected.x + 0.5) * squareWidth + bX, (selected.y  + 0.5) * squareHeight + bY, squareWidth * 0.75);
 		gradient.addColorStop(0, "yellow");
 		gradient.addColorStop(1, "transparent");
 		ctx2.fillStyle = gradient;
-		ctx2.fillRect(selected.x * squareWidth + bX, selected.y * squareHeight + bY, squareWidth, squareHeight);
+		//ctx2.fillRect(selected.x * squareWidth + bX, selected.y * squareHeight + bY, squareWidth, squareHeight);
+		ctx2.fillRect(bX, bY, grid.gridWidth * squareWidth, grid.gridHeight * squareHeight);
 	}
 	
 }
