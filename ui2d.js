@@ -3,6 +3,8 @@ var squareWidth = 64;
 	
 var selected = null;
 
+var flipped = false;
+
 var pieceSrc = 'assets/pieces2.png';
 var pieceWidth = 64,
 	pieceHeight = 128;
@@ -57,23 +59,35 @@ function drawBoard(grid){
 
 function drawPieces(grid){
 	ctx3.clearRect(0, 0, c3.width, c3.height);
+
 	for(i = 0; i < grid.gridWidth; i++){
-	 	for(j = 0; j < grid.gridHeight; j++){
-	 		if(grid.squares[j][i].piece != null){
-	 			ctx3.drawImage(pieceImg,
-	 				grid.squares[j][i].piece.type * pieceWidth, grid.squares[j][i].piece.side * pieceHeight, pieceWidth, pieceHeight,
-	 				i * squareWidth + bX, j * squareHeight + (squareHeight - pieceHeight) + bY, squareWidth, pieceHeight);
-	 		}
-	 	}
+		for(j = 0; j < grid.gridHeight; j++){
+			var x = i, y = j;
+			if(flipped){
+				x = 7 - x;
+				y = 7 - y;
+			}
+			if(grid.squares[y][x].piece != null){
+				ctx3.drawImage(pieceImg, grid.squares[y][x].piece.type * pieceWidth, grid.squares[y][x].piece.side * pieceHeight,
+								pieceWidth, pieceHeight, i * squareWidth + bX, j * squareHeight + (squareHeight - pieceHeight) + bY,
+								squareWidth, pieceHeight);
+			}
+		}
 	}
 }
 
 function drawSelected(grid){
 	ctx2.clearRect(0, 0, c2.width, c2.height);
+	
 	if(selected != null){
+		var x = selected.x; var y = selected.y;
+		if(flipped){
+			x = 7 - x;
+			y = 7 - y;
+		}
 		var gradient = ctx2.createRadialGradient(
-									(selected.x + 0.5) * squareWidth + bX, (selected.y  + 0.5) * squareHeight + bY, squareWidth / 4,
-									(selected.x + 0.5) * squareWidth + bX, (selected.y  + 0.5) * squareHeight + bY, squareWidth * 0.75);
+									(x + 0.5) * squareWidth + bX, (y  + 0.5) * squareHeight + bY, squareWidth / 4,
+									(x + 0.5) * squareWidth + bX, (y  + 0.5) * squareHeight + bY, squareWidth * 0.75);
 		gradient.addColorStop(0, "yellow");
 		gradient.addColorStop(1, "transparent");
 		ctx2.fillStyle = gradient;
@@ -87,6 +101,11 @@ function mouseClick(event){
 	var x = calculateMouse("x", event.clientX - document.getElementById("ui").offsetLeft - bX);
 	var y = calculateMouse("y", event.clientY - document.getElementById("ui").offsetTop - bY
 							+ document.getElementById("myBody").scrollTop);
+							
+	if(flipped){
+		x = 7 - x;
+		y = 7 - y;
+	}
 	
 	if(selected == null && primaryGrid.squares[y][x].piece != null){
 		selected = {x: x , y: y};
@@ -118,4 +137,15 @@ function textInput(){
 	drawPieces(primaryGrid);
 	drawSelected(primaryGrid);
 	document.getElementById("input").value = "";
+}
+
+function flip(){
+	if(flipped){
+		document.getElementById("flip").textContent = " white ";
+	} else {
+		document.getElementById("flip").textContent = " black ";
+	}
+	flipped = !flipped;
+	drawPieces(primaryGrid);
+	drawSelected(preimaryGrid);
 }
