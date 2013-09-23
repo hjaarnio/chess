@@ -84,15 +84,15 @@ function drawSelected(grid){
 
 function mouseClick(event){
 	var x = calculateMouse("x", event.clientX - document.getElementById("ui").offsetLeft - bX);
-	var y = calculateMouse("y", event.clientY - document.getElementById("ui").offsetTop - bY);
-	
-	//alert(x + " " + y);
+	var y = calculateMouse("y", event.clientY - document.getElementById("ui").offsetTop - bY
+							+ document.getElementById("myBody").scrollTop);
 	
 	if(selected == null && primaryGrid.squares[y][x].piece != null){
 		selected = {x: x , y: y};
 	} else {
-		move(selected.x, selected.y, x, y, primaryGrid);
-		updateText(selected.x, selected.y, x, y, primaryGrid);
+		if(move(selected.x, selected.y, x, y, primaryGrid)){
+			updateText(selected.x, selected.y, x, y, primaryGrid);
+		}
 		selected = null;
 		drawPieces(primaryGrid);
 	}
@@ -112,8 +112,8 @@ function updateText(x1, y1, x2, y2){
 
 function textInput(){
 	moves = convertNotationToMove(document.getElementById("input").value);
-	move(moves[0], moves[1], moves[2], moves[3], primaryGrid);
-	updateText(moves[0], moves[1], moves[2], moves[3]);
+	if(move(moves[0], moves[1], moves[2], moves[3], primaryGrid))
+		updateText(moves[0], moves[1], moves[2], moves[3]);
 	drawPieces(primaryGrid);
 	drawSelected(primaryGrid);
 	document.getElementById("input").value = "";
