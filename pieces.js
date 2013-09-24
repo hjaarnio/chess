@@ -50,6 +50,16 @@ function Pawn(side){
 				moveset.push(grid.squares[y1 + direction][x1 + 1]);
 		}
 		
+		if(y1 == 4 - this.side && x1 - 1 > 0 && grid.squares[y1][x1 - 1].piece != null &&
+			grid.squares[y1][x1 - 1].piece.type == 0 && grid.squares[y1][x1 - 1].piece.timesMoved == 1 &&
+			grid.squares[y1][x1 - 1].piece.lastMovedOn + 1 == grid.currentMove){
+				moveset.push(grid.squares[y1 + direction][x1 - 1]);
+		} else if(y1 == 4 - this.side && x1 + 1 < grid.gridWidth && grid.squares[y1][x1 + 1].piece != null &&
+			grid.squares[y1][x1 + 1].piece.type == 0 && grid.squares[y1][x1 + 1].piece.timesMoved == 1 &&
+			grid.squares[y1][x1 + 1].piece.lastMovedOn + 1 == grid.currentMove){
+				moveset.push(grid.squares[y1 + direction][x1 + 1]);
+		} 
+		
 		return moveset;
 	}
 	
@@ -59,12 +69,6 @@ function Pawn(side){
 		}
 		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
-		}
-		//check en passant and return true if it applies
-		if(y1 == 4 - this.side && grid.squares[y1][x2].piece != null && 
-				grid.squares[y1][x2].piece.type == 0 && grid.squares[y1][x2].piece.timesMoved == 1
-				&& grid.squares[y1][x2].piece.lastMovedOn + 1 == grid.currentMove){
-					return true;
 		} else return false;
 	}
 	
