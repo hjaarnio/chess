@@ -249,6 +249,17 @@ function King(side){
 			}
 		}
 		
+		if(!this.hasMoved && grid.currentMove % 2 != this.side &&
+			grid.squares[y1][0].piece != null && grid.squares[y1][0].piece.type == 1 && !grid.squares[y1][0].piece.hasMoved &&
+			grid.squares[y1][1].piece == null && grid.squares[y1][2].piece == null && grid.squares[y1][3].piece == null &&
+			!isSquareInCheck(2, y1, this.side, grid) && !isSquareInCheck(3, y1, this.side, grid) && !isSquareInCheck(4, y1, this.side, grid)){
+				moveset.push(grid.squares[y1][2]);
+		} else if(!this.hasMoved && grid.currentMove % 2 != this.side &&
+			grid.squares[y1][7].piece != null && grid.squares[y1][7].piece.type == 1 && !grid.squares[y1][7].piece.hasMoved &&
+			grid.squares[y1][6].piece == null && grid.squares[y1][5].piece == null &&
+			!isSquareInCheck(6, y1, this.side, grid) && !isSquareInCheck(5, y1, this.side, grid) && !isSquareInCheck(4, y1, this.side, grid)){
+				moveset.push(grid.squares[y1][6]);
+		}
 		return moveset;
 	}
 	
@@ -258,16 +269,6 @@ function King(side){
 		}
 		if(this.moveset(x1, y1, grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
-		}else if(!this.hasMoved && y2 == y1 && x2 == 2 && grid.squares[y2][0].piece != null &&
-			grid.squares[y2][0].piece.type == 1 && !grid.squares[y2][0].piece.hasMoved &&
-			grid.squares[y2][1].piece == null && grid.squares[y2][2].piece == null && grid.squares[y2][3].piece == null &&
-			!isSquareInCheck(2, y2, this.side, grid) && !isSquareInCheck(3, y2, this.side, grid) && !isSquareInCheck(4, y2, this.side, grid)){
-				return true;
-		} else if(!this.hasMoved && y2 == y1 && x2 == 6 && grid.squares[y2][7].piece != null &&
-			grid.squares[y2][7].piece.type == 1 && !grid.squares[y2][7].piece.hasMoved &&
-			grid.squares[y2][6].piece == null && grid.squares[y2][5].piece == null &&
-			!isSquareInCheck(6, y2, this.side, grid) && !isSquareInCheck(5, y2, this.side, grid) && !isSquareInCheck(4, y2, this.side, grid)){
-				return true;
 		} else return false;
 		
 	} 
