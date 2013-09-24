@@ -79,8 +79,11 @@ function drawPieces(grid){
 function drawSelected(grid){
 	ctx2.clearRect(0, 0, c2.width, c2.height);
 	
+	
+	
 	if(selected != null){
 		var x = selected.x; var y = selected.y;
+		drawPossibleMoves(x, y, grid);
 		if(flipped){
 			x = 7 - x;
 			y = 7 - y;
@@ -95,6 +98,28 @@ function drawSelected(grid){
 		ctx2.fillRect(bX, bY, grid.gridWidth * squareWidth, grid.gridHeight * squareHeight);
 	}
 	
+}
+
+function drawPossibleMoves(x, y, grid){
+	var moveset = grid.squares[y][x].piece.moveset(x, y, grid);
+	for(i = 0; i < grid.gridWidth; i++){
+		for(j = 0; j < grid.gridHeight; j++){
+			if(moveset.indexOf(grid.squares[j][i]) != -1){
+				x = i; y = j;
+				if(flipped){
+					x = 7 - x;
+					y = 7 - y;
+				}
+				var gradient = ctx2.createRadialGradient(
+									(x + 0.5) * squareWidth + bX, (y  + 0.5) * squareHeight + bY, squareWidth / 8,
+									(x + 0.5) * squareWidth + bX, (y  + 0.5) * squareHeight + bY, squareWidth / 2);
+				gradient.addColorStop(0, "yellow");
+				gradient.addColorStop(1, "transparent");
+				ctx2.fillStyle = gradient;
+				ctx2.fillRect(bX + x * squareWidth, bY + y * squareHeight, bX + (x + 1) * squareWidth, bY + (y + 1) * squareHeight);
+			}
+		}
+	}
 }
 
 function mouseClick(event){
