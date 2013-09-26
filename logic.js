@@ -29,12 +29,21 @@ function Grid(setup){
 		this.squares[1] = pawnRow(0);
 		this.squares[6] = pawnRow(1);
 		this.squares[7] = kingRow(1);
+		this.pieces = [[], []];
+		for(i = 0; i < this.squares[0].concat(this.squares[1]).length; i++){
+			this.pieces[0].push(this.squares[0].concat(this.squares[1])[i].piece)
+		}
+		for(i = 0; i < this.squares[6].concat(this.squares[7]).length; i++){
+			this.pieces[1].push(this.squares[6].concat(this.squares[7])[i].piece)
+		}
+		
 	}
 	
 	
 	
 	this.copy = function(){ //returns a copy of the grid
 		var result = new Grid(false);
+		result.pieces = [[], []];
 		for(i = 0; i < this.gridWidth; i++){
 			for(j = 0; j < this.gridHeight; j++){
 				piece = this.squares[i][j].piece;
@@ -47,6 +56,9 @@ function Grid(setup){
 					case 2: result.squares[i][j].piece = new Bishop(piece.side, piece.x, piece.y); break;
 					case 4: result.squares[i][j].piece = new Queen(piece.side, piece.x, piece.y); break;
 					case 5: result.squares[i][j].piece = new King(piece.side, piece.x, piece.y); break;
+				}
+				if(piece != null){
+					result.pieces[piece.side].push(piece);
 				}
 			}
 		}
@@ -96,11 +108,9 @@ function move(x1, y1, x2, y2, grid){
 				return true;
 			} else warnign("King checked");
 			
-		} else {
-			
 		}
 	} 
-	
+	alert(grid.pieces);
 	return false;
 }
 
