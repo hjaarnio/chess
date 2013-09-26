@@ -3,12 +3,10 @@
 //and in the end of turn to see if the move checked the opposing king
 function isKingInCheck(side, grid){
 	var x, y; //location of king
-	for(i = 0; i < grid.gridWidth; i++){
-		for(j = 0; j < grid.gridHeight; j++){
-			if(grid.squares[i][j].piece != null && grid.squares[i][j].piece.side == side && grid.squares[i][j].piece.type == 5){
-				x = j; y = i;
-				break;
-			}
+	for(i = 0; i < grid.pieces[side].length; i++){
+		if(grid.pieces[side][i].type == 5){
+			x = grid.pieces[side][i].x;
+			y = grid.pieces[side][i].y;
 		}
 	}
 	return isSquareInCheck(x, y, side, grid);
