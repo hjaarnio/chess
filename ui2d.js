@@ -101,7 +101,7 @@ function drawSelected(grid){
 }
 
 function drawPossibleMoves(x, y, grid){
-	var moveset = grid.squares[y][x].piece.moveset(x, y, grid);
+	var moveset = grid.squares[y][x].piece.moveset(grid);
 	for(i = 0; i < grid.gridWidth; i++){
 		for(j = 0; j < grid.gridHeight; j++){
 			if(moveset.indexOf(grid.squares[j][i]) != -1){

@@ -20,12 +20,12 @@ function isSquareInCheck(x, y, side, grid){
 	
 	if(grid.squares[y][x].piece == null){
 		emptySquare = true;
-		grid.squares[y][x].piece = new Piece("X", side);
+		grid.squares[y][x].piece = new Piece(-1, side, x, y);
 	}
 	for(i = 0; i < grid.gridWidth; i++){
 		for(j = 0; j < grid.gridHeight; j++){
 			if(grid.squares[j][i].piece != null && grid.squares[j][i].piece.side != side){
-				inDangerSet = inDangerSet.concat(grid.squares[j][i].piece.moveset(i, j, grid));
+				inDangerSet = inDangerSet.concat(grid.squares[j][i].piece.moveset(grid));
 			}
 		}
 	}
