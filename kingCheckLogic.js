@@ -22,12 +22,8 @@ function isSquareInCheck(x, y, side, grid){
 		emptySquare = true;
 		grid.squares[y][x].piece = new Piece(-1, side, x, y);
 	}
-	for(i = 0; i < grid.gridWidth; i++){
-		for(j = 0; j < grid.gridHeight; j++){
-			if(grid.squares[j][i].piece != null && grid.squares[j][i].piece.side != side){
-				inDangerSet = inDangerSet.concat(grid.squares[j][i].piece.moveset(grid));
-			}
-		}
+	for(i = 0; i < grid.pieces[1 - side].length; i++){
+		inDangerSet = inDangerSet.concat(grid.pieces[1 - side][i].moveset(grid));
 	}
 	
 	if(emptySquare){
