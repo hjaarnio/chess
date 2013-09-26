@@ -106,11 +106,10 @@ function move(x1, y1, x2, y2, grid){
 				}
 				grid.currentMove++;
 				return true;
-			} else warnign("King checked");
+			} else warning("King checked");
 			
 		}
-	} 
-	alert(grid.pieces);
+	}
 	return false;
 }
 
@@ -141,4 +140,18 @@ function checkPawns(side, grid){
 			grid.squares[-(side - 1) * 7][i].piece = new Queen(side);
 		}
 	}
+}
+
+
+function debugPieces(grid){
+	var output = "";
+	for(i = 0; i < grid.pieces[0].length; i++){
+			output += grid.pieces[0][i].type + " ";
+		}
+	alert(output)
+	output = ""
+	for(i = 0; i < grid.pieces[1].length; i++){
+			output += grid.pieces[1][i].type + " ";
+		}
+	alert(output)
 }
