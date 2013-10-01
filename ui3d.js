@@ -1,23 +1,46 @@
 var ui = document.getElementById("ui");
-alert("blob")
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, ui.offsetWidth/ui.offsetHeight, 0.1, 1000);
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(ui.offsetWidth, ui.offsetHeight);
 ui.appendChild(renderer.domElement);
-alert("creating loader")
-var loader = new THREE.JSONLoader();
-loader.load("assets/models/pawn.js", function(geometry){ alert("enter load")
-	var material = new THREE.MeshPhongMaterial({color: 0x0ff090, shading: THREE.SmoothShading});
-	var mesh = new THREE.Mesh(geometry, material);
-	mesh.position.set(0, 0, 0);
-	mesh.rotation.set(0, 0, 0);
-	scene.add(mesh);
-    }
-);
-var light = new THREE.PointLight( 0xffffff, 1, 100 ); light.position.set( 5, 5, 5 ); scene.add( light );
 
+var loader = new THREE.JSONLoader();
+
+var meshes = [{}, {}, {}, {}, {}, {}, {}, {}];
+
+function loadMeshes(){
+	
+	var materialWhite = new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.SmoothShading});
+	loadMesh("assets/models/pawn.js", 0);
+	loadMesh("assets/models/rook.js", 1);
+	loadMesh("assets/models/bishop.js", 2);
+	loadMesh("assets/models/knight.js", 3);
+//	loadMesh("assets/models/queen.js", 4);
+//	loadMesh("assets/models/king.js", 5);
+	makePiece(0, materialWhite, new THREE.Vector3(3, 0, 0));
+	makePiece(1, materialWhite, new THREE.Vector3(0, 0, 0));
+	makePiece(2, materialWhite, new THREE.Vector3(1, 0, 0));
+	makePiece(3, materialWhite, new THREE.Vector3(2, 0, 0));
+}
+function loadMesh(path, index){
+	loader.load(path, function(geometry){
+		meshes[index].piece = geometry;
+		meshes[index].loaded = true;
+ 	    }
+	);
+}
+loadMeshes();
+
+function makePiece(index, material, coords){
+	while(meshes[index] != undefined && !meshes[index].loaded) alert("pim");
+	var mesh = new THREE.Mesh(meshes[index].piece, material);
+	mesh.position = coords;
+	scene.add(mesh);
+}
+
+var light = new THREE.PointLight( 0xffffff, 1, 100 ); light.position.set( 5, 5, 5 ); scene.add( light );
 camera.position.z = 5;
 var render = function () { 
 	requestAnimationFrame(render);
