@@ -13,16 +13,19 @@ var meshes = [{}, {}, {}, {}, {}, {}, {}, {}];
 function loadMeshes(){
 	
 	var materialWhite = new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.SmoothShading});
+	var materialBlack = new THREE.MeshPhongMaterial({color: 0x0a0a0a, shading: THREE.SmoothShading});
 	loadMesh("assets/models/pawn.js", 0);
 	loadMesh("assets/models/rook.js", 1);
 	loadMesh("assets/models/bishop.js", 2);
 	loadMesh("assets/models/knight.js", 3);
-//	loadMesh("assets/models/queen.js", 4);
-//	loadMesh("assets/models/king.js", 5);
-	makePiece(0, materialWhite, new THREE.Vector3(3, 0, 0));
+	loadMesh("assets/models/queen.js", 4);
+	loadMesh("assets/models/king.js", 5);
+	makePiece(0, materialWhite, new THREE.Vector3(6, 0, 0));
 	makePiece(1, materialWhite, new THREE.Vector3(0, 0, 0));
-	makePiece(2, materialWhite, new THREE.Vector3(1, 0, 0));
-	makePiece(3, materialWhite, new THREE.Vector3(2, 0, 0));
+	makePiece(2, materialBlack, new THREE.Vector3(2, 0, 0));
+	makePiece(3, materialWhite, new THREE.Vector3(4, 0, 0));
+	makePiece(4, materialBlack, new THREE.Vector3(-2, 0, 0));
+	makePiece(5, materialWhite, new THREE.Vector3(-4, 0, 0))
 }
 function loadMesh(path, index){
 	loader.load(path, function(geometry){
@@ -38,10 +41,11 @@ function makePiece(index, material, coords){
 	var mesh = new THREE.Mesh(meshes[index].piece, material);
 	mesh.position = coords;
 	scene.add(mesh);
+	return mesh;
 }
 
 var light = new THREE.PointLight( 0xffffff, 1, 100 ); light.position.set( 5, 5, 5 ); scene.add( light );
-camera.position.z = 5;
+camera.position.z = 10;
 var render = function () { 
 	requestAnimationFrame(render);
 	renderer.render(scene, camera);
