@@ -2,7 +2,9 @@ var ui = document.getElementById("ui");
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, ui.offsetWidth/ui.offsetHeight, 0.1, 1000);
 alert("begin file")
+
 var renderer = new THREE.WebGLRenderer();
+
 renderer.setSize(ui.offsetWidth, ui.offsetHeight);
 ui.appendChild(renderer.domElement);
 
@@ -53,12 +55,19 @@ function makePieces(){
 	var materialWhite = new THREE.MeshPhongMaterial({color: 0xdddddd, shading: THREE.SmoothShading});
 	var materialBlack = new THREE.MeshPhongMaterial({color: 0x0a0a0a, shading: THREE.SmoothShading});
 	
-	makePiece(0, materialWhite, new THREE.Vector3(6, 0, 0));
+	alert(primaryGrid.pieces[0].length)
+	for(i = 0; i < primaryGrid.pieces[0].length; i++){
+		makePiece(primaryGrid.pieces[0][i].type, materialBlack, new THREE.Vector3(i % 8, 0, i / 8 + 1).multiplyScalar(2));
+	}
+	for(i = 0; i < primaryGrid.pieces[0].length; i++){
+		makePiece(primaryGrid.pieces[1][i].type, materialWhite, new THREE.Vector3(i % 8, 0, i / 8 + 6).multiplyScalar(2));
+	}
+	/*makePiece(0, materialWhite, new THREE.Vector3(6, 0, 0));
 	makePiece(1, materialWhite, new THREE.Vector3(0, 0, 0));
 	makePiece(2, materialBlack, new THREE.Vector3(2, 0, 0));
 	makePiece(3, materialWhite, new THREE.Vector3(4, 0, 0));
 	makePiece(4, materialBlack, new THREE.Vector3(-2, 0, 0));
-	makePiece(5, materialWhite, new THREE.Vector3(-4, 0, 0))
+	makePiece(5, materialWhite, new THREE.Vector3(-4, 0, 0))*/
 }
 function makePiece(index, material, coords){
 	//while(meshes[index] != undefined && !meshes[index].loaded) //alert(meshes[index] + " " + index);
@@ -69,7 +78,9 @@ function makePiece(index, material, coords){
 }
 
 var light = new THREE.PointLight( 0xffffff, 1, 100 ); light.position.set( 5, 5, 5 ); scene.add( light );
-camera.position.z = 10;
+camera.position.z = 0;
+camera.position.y = 20;
+camera.rotation.x = -Math.PI / 2;
 var render = function () { 
 	requestAnimationFrame(render);
 	renderer.render(scene, camera);
