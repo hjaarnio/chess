@@ -18,6 +18,8 @@ var paths = [dir + "assets/models/pawn.js", dir + "assets/models/rook.js", dir +
 var meshes = [{}, {}, {}, {}, {}, {}];
 var allMeshesLoaded = false;
 
+loadMeshes();
+makeBoard();
 function loadMeshes(){
 	alert("begin loading meshes");
 	for(i = 5; i >= 0; i--){
@@ -37,8 +39,7 @@ function loadMesh(index){
 			});
 	
 }
-loadMeshes();
-//makePieces();
+
 function meshLoaded(){
 	//alert("loaded mesh")
 	for(i = 5; i >= 0; i--){
@@ -52,15 +53,13 @@ function meshLoaded(){
 	makePieces();
 }
 function makePieces(){
-	var materialWhite = new THREE.MeshPhongMaterial({color: 0xdddddd, shading: THREE.SmoothShading});
-	var materialBlack = new THREE.MeshPhongMaterial({color: 0x0a0a0a, shading: THREE.SmoothShading});
 	
 	alert(primaryGrid.pieces[0].length)
-	for(i = 0; i < primaryGrid.pieces[0].length; i++){
-		makePiece(primaryGrid.pieces[0][i].type, materialBlack, new THREE.Vector3(i % 8, 0, i / 8 + 1).multiplyScalar(2));
+	for(var i = 0; i < primaryGrid.pieces[0].length; i++){
+		makePiece(primaryGrid.pieces[0][i].type, 0, new THREE.Vector3(i % 8, 0, Math.floor(i / 8)).multiplyScalar(2));
 	}
-	for(i = 0; i < primaryGrid.pieces[0].length; i++){
-		makePiece(primaryGrid.pieces[1][i].type, materialWhite, new THREE.Vector3(i % 8, 0, i / 8 + 6).multiplyScalar(2));
+	for(var i = 0; i < primaryGrid.pieces[0].length; i++){
+		makePiece(primaryGrid.pieces[1][i].type, 1, new THREE.Vector3(i % 8, 0, Math.floor(i / 8) + 6).multiplyScalar(2));
 	}
 	/*makePiece(0, materialWhite, new THREE.Vector3(6, 0, 0));
 	makePiece(1, materialWhite, new THREE.Vector3(0, 0, 0));
@@ -69,16 +68,37 @@ function makePieces(){
 	makePiece(4, materialBlack, new THREE.Vector3(-2, 0, 0));
 	makePiece(5, materialWhite, new THREE.Vector3(-4, 0, 0))*/
 }
-function makePiece(index, material, coords){
-	//while(meshes[index] != undefined && !meshes[index].loaded) //alert(meshes[index] + " " + index);
-	var mesh = new THREE.Mesh(meshes[index].piece, material);
+function makePiece(index, side, coords){
+
+	var material = new Array(2);
+	material[0] = new THREE.MeshPhongMaterial({color: 0x0a0a0a, shading: THREE.SmoothShading});
+	material[1] = new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.SmoothShading});
+	
+	var mesh = new THREE.Mesh(meshes[index].piece, material[side]);
 	mesh.position = coords;
+	mesh.rotation.y = side * Math.PI
 	scene.add(mesh);
 	return mesh;
 }
 
+function makeBoard(){
+	var squareGeometry = new THREE.CubeGeometry( 2, 0.1, 2 );
+	//purposefully different materials than pieces
+	var material = new Array(2);
+	material[0] = new THREE.MeshPhongMaterial({color: 0x0a0a0a, shading: THREE.SmoothShading});
+	material[1] = new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.SmoothShading});
+	for(var i = 0; i < 8; i++){
+		for(var j = 0; j < 8 ; j++){
+			var squareMesh = new THREE.Mesh(squareGeometry, material[((i % 2 == j % 2) ? 0 : 1)]);
+			squareMesh.position = new THREE.Vector3(i, 0, j).multiplyScalar(2);
+			scene.add(squareMesh);
+		}
+	}
+}
+
 var light = new THREE.PointLight( 0xffffff, 1, 100 ); light.position.set( 5, 5, 5 ); scene.add( light );
-camera.position.z = 0;
+camera.position.z = 4 * 2;
+camera.position.x = 4 * 2;
 camera.position.y = 20;
 camera.rotation.x = -Math.PI / 2;
 var render = function () { 
