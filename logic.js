@@ -15,6 +15,7 @@ function Grid(setup){
 	//needed to check en passant but might prove useful later too
 	this.currentMove = 0;
 
+	//follows y, x notation!
 	this.squares = new Array(this.gridWidth);
 	
 	for(i = 0; i < this.gridWidth; i++){

@@ -56,10 +56,10 @@ function makePieces(){
 	
 	alert(primaryGrid.pieces[0].length)
 	for(var i = 0; i < primaryGrid.pieces[0].length; i++){
-		makePiece(primaryGrid.pieces[0][i].type, 0, new THREE.Vector3(i % 8, 0, Math.floor(i / 8)).multiplyScalar(2));
+		primaryGrid.pieces[0][i].mesh = makePiece(primaryGrid.pieces[0][i].type, 0, new THREE.Vector3(i % 8, 0, Math.floor(i / 8)).multiplyScalar(2));
 	}
-	for(var i = 0; i < primaryGrid.pieces[0].length; i++){
-		makePiece(primaryGrid.pieces[1][i].type, 1, new THREE.Vector3(i % 8, 0, Math.floor(i / 8) + 6).multiplyScalar(2));
+	for(var i = 0; i < primaryGrid.pieces[1].length; i++){
+		primaryGrid.pieces[1][i].mesh = makePiece(primaryGrid.pieces[1][i].type, 1, new THREE.Vector3(i % 8, 0, Math.floor(i / 8) + 6).multiplyScalar(2));
 	}
 	/*makePiece(0, materialWhite, new THREE.Vector3(6, 0, 0));
 	makePiece(1, materialWhite, new THREE.Vector3(0, 0, 0));
@@ -106,3 +106,22 @@ var render = function () {
 	renderer.render(scene, camera);
 };
 render();
+
+function textInput(){
+	var killed
+	moves = convertNotationToMove(document.getElementById("input").value);
+	if(primaryGrid.squares[moves[3]][moves[2]].piece != null){
+		killed = primaryGrid.squares[moves[3]][moves[2]].piece.mesh
+	}
+	if(move(moves[0], moves[1], moves[2], moves[3], primaryGrid))
+		updateText(moves[0], moves[1], moves[2], moves[3]);
+	//alert(moves);
+	//alert(primaryGrid.squares[moves[2]][moves[3]].piece.x + " "+ primaryGrid.squares[moves[2]][moves[3]].piece.y);
+	scene.remove(killed);
+	primaryGrid.squares[moves[3]][moves[2]].piece.mesh.position = new THREE.Vector3(moves[2], 0, moves[3]).multiplyScalar(2);
+	document.getElementById("input").value = "";
+	render();
+}
+function updateText(x1, y1, x2, y2){
+	document.getElementById("lastMove").textContent = convertMoveToNotation(x1, y1, x2, y2);
+}
