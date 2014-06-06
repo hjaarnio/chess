@@ -9,79 +9,50 @@ ui.appendChild(renderer.domElement);
 var loader = new THREE.JSONLoader();
 
 var basePath = "assets/models/";
-var paths = ["assets/models/pawn.js", "assets/models/rook.js", "assets/models/bishop.js", "assets/models/knight.js", "assets/models/queen.js", "assets/models/king.js"]
+//var paths = ["assets/models/pawn.js", "assets/models/rook.js", "assets/models/bishop.js", "assets/models/knight.js", "assets/models/queen.js", "assets/models/king.js"]
+var dir = ""
+var paths = [dir + "assets/models/pawn.js", dir + "assets/models/rook.js", dir + "assets/models/bishop.js", dir + "assets/models/knight.js", dir + "assets/models/queen.js", dir + "assets/models/king.js"]
+
 var meshes = [{}, {}, {}, {}, {}, {}];
-var meshesLoaded = 0;
+var allMeshesLoaded = false;
 
 function loadMeshes(){
 	alert("begin loading meshes");
-	loadMesh(0);
-	loadMesh(1);
-	loadMesh(2);
-	loadMesh(3);
-	loadMesh(4);
-	loadMesh(5);
+	for(i = 5; i >= 0; i--){
+		meshes[i].loaded = false;
+		meshes[i].piece = new THREE.CubeGeometry( 1, 1, 1 );
+		loadMesh(i);
+	} //loadMesh(0)
 }
 function loadMesh(index){
-alert(index);
+	//alert(index);
 	var loader = new THREE.JSONLoader();
-	switch(index){
-		case 0: 
-			loader.load(paths[index], function(geometry){ 
-					meshes[0].piece = geometry;
-					meshes[0].loaded = true;
-					meshLoaded();
-				}); break;
-
-		case 1:
-			loader.load(paths[index], function(geometry){ 
-					meshes[1].piece = geometry;
-					meshes[1].loaded = true;
-					meshLoaded();
-				}); break;
-
-		case 2:
-			loader.load(paths[index], function(geometry){ 
-					meshes[2].piece = geometry;
-					meshes[2].loaded = true;
-					meshLoaded();
-				}); break;
-
-		case 3:
-			loader.load(paths[index], function(geometry){ 
-					meshes[3].piece = geometry;
-					meshes[3].loaded = true;
-					meshLoaded();
-				}); break;
-
-		case 4:
-			loader.load(paths[index], function(geometry){ 
-					meshes[4].piece = geometry;
-					meshes[4].loaded = true;
-					meshLoaded();
-				}); break;
-
-		case 5: 
-			loader.load(paths[index], function(geometry){ 
-					meshes[5].piece = geometry;
-					meshes[5].loaded = true;
-					meshLoaded();
-				}); break;
-	}
+	loader.load(paths[index], function(geometry) {
+				//alert("meep");
+				meshes[index].piece = geometry;
+				meshes[index].loaded = true;
+				meshLoaded();
+			});
+	
 }
 loadMeshes();
+//makePieces();
 function meshLoaded(){
-	alert("mesh loaded")
-	meshesLoaded++;
-	alert(meshesLoaded);
-	alert(meshes.length);
-	if(meshesLoaded == meshes.length){
-		makePieces();
+	//alert("loaded mesh")
+	for(i = 5; i >= 0; i--){
+		if(!meshes[i].loaded){
+			//alert("mesh "+i)
+			return;
+		}
 	}
+	alert("all meshes loaded");
+	allMeshesLoaded = true;
+	makePieces();
 }
 function makePieces(){
-	var materialWhite = new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.SmoothShading});
+	var materialWhite = new THREE.MeshPhongMaterial({color: 0xdddddd, shading: THREE.SmoothShading});
 	var materialBlack = new THREE.MeshPhongMaterial({color: 0x0a0a0a, shading: THREE.SmoothShading});
+	
 	makePiece(0, materialWhite, new THREE.Vector3(6, 0, 0));
 	makePiece(1, materialWhite, new THREE.Vector3(0, 0, 0));
 	makePiece(2, materialBlack, new THREE.Vector3(2, 0, 0));
@@ -90,7 +61,7 @@ function makePieces(){
 	makePiece(5, materialWhite, new THREE.Vector3(-4, 0, 0))
 }
 function makePiece(index, material, coords){
-	while(meshes[index] != undefined && !meshes[index].loaded) alert(meshes[index] + " " + index);
+	//while(meshes[index] != undefined && !meshes[index].loaded) //alert(meshes[index] + " " + index);
 	var mesh = new THREE.Mesh(meshes[index].piece, material);
 	mesh.position = coords;
 	scene.add(mesh);
