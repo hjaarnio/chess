@@ -64,7 +64,7 @@ function Grid(setup){
 			}
 		}
 		return result;
-	}
+	};
 }
 
 function kingRow(side){

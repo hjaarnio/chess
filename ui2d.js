@@ -33,7 +33,7 @@ function initUI(){
 	pieceImg = new Image();
 	pieceImg.onload = function(){
 		draw(primaryGrid);
-	}
+	};
 	pieceImg.src = pieceSrc;
 }
 
