@@ -1,13 +1,4 @@
-var ui = document.getElementById("ui");
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, ui.offsetWidth/ui.offsetHeight, 0.1, 1000);
-
-var renderer = new THREE.WebGLRenderer();
-
-renderer.setSize(ui.offsetWidth, ui.offsetHeight);
-ui.appendChild(renderer.domElement);
-
-var loader = new THREE.JSONLoader();
+var ui, scene, camera,cameraCenter, renderer, loader, light;
 
 var basePath = "assets/models/";
 //var paths = ["assets/models/pawn.js", "assets/models/rook.js", "assets/models/bishop.js", "assets/models/knight.js", "assets/models/queen.js", "assets/models/king.js"]
@@ -22,12 +13,40 @@ var squares = [];
 var selected = null;
 
 function initUI(){
+	ui = document.getElementById("ui");
+	scene = new THREE.Scene();
+	camera = new THREE.PerspectiveCamera(75, ui.offsetWidth/ui.offsetHeight, 0.1, 1000);
+
+	renderer = new THREE.WebGLRenderer();
+
+	renderer.setSize(ui.offsetWidth, ui.offsetHeight);
+	ui.appendChild(renderer.domElement);
+
+	loader = new THREE.JSONLoader();
+
+	
+	
+	cameraCenter = new THREE.Object3D();
+	cameraCenter.add(camera);
+	scene.add(cameraCenter);
+	
+	cameraCenter.eulerOrder = 'YXZ';
+	cameraCenter.position.z = 4 * 2;
+	cameraCenter.position.x = 4 * 2;
+	
+	camera.position.z = 20;
+	
+	light = new THREE.PointLight( 0xffffff, 1, 100 ); light.position.set( 5, 5, 10 );
+	cameraCenter.add( light );
+	
+	cameraCenter.rotation.x = -Math.PI / 3;
+	
 	loadMeshes();
 	makeBoard();
 }
 
 function loadMeshes(){
-	alert("begin loading meshes");
+	//alert("begin loading meshes");
 	for(i = 5; i >= 0; i--){
 		meshes[i].loaded = false;
 		meshes[i].piece = new THREE.CubeGeometry( 1, 1, 1 );
@@ -54,7 +73,7 @@ function meshLoaded(){
 			return;
 		}
 	}
-	alert("all meshes loaded");
+	//alert("all meshes loaded");
 	allMeshesLoaded = true;
 	makePieces();
 }
@@ -116,11 +135,7 @@ function makeBoard(){
 	}
 }
 
-var light = new THREE.PointLight( 0xffffff, 1, 100 ); light.position.set( 5, 5, 5 ); scene.add( light );
-camera.position.z = 4 * 2;
-camera.position.x = 4 * 2;
-camera.position.y = 20;
-camera.rotation.x = -Math.PI / 2;
+
 var render = function () { 
 	requestAnimationFrame(render);
 	renderer.render(scene, camera);
@@ -161,7 +176,7 @@ function mouseClick(event){
 	projector = new THREE.Projector();
 	projector.unprojectVector(vector, camera);
 	
-	var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+	var raycaster = new THREE.Raycaster( cameraCenter.localToWorld(camera.position.clone()), vector.sub( cameraCenter.localToWorld(camera.position.clone() )).normalize() );
 	
 	var intersects = raycaster.intersectObjects(squares);
 	
