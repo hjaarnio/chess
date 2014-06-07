@@ -58,8 +58,8 @@ function Grid(setup){
 					case 4: result.squares[i][j].piece = new Queen(piece.side, piece.x, piece.y); break;
 					case 5: result.squares[i][j].piece = new King(piece.side, piece.x, piece.y); break;
 				}
-				if(piece != null){
-					result.pieces[piece.side].push(piece);
+				if(result.squares[i][j].piece != null){
+					result.pieces[result.squares[i][j].piece.side].push(result.squares[i][j].piece);
 				}
 			}
 		}
@@ -109,8 +109,8 @@ function move(x1, y1, x2, y2, grid){
 				return true;
 			} else warning("King checked");
 			
-		}
-	}
+		} else warning("move not legal")
+	} else warning("move not valid")
 	return false;
 }
 
