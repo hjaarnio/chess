@@ -138,7 +138,7 @@ function outsideBoard(x, y, grid){
 function checkPawns(side, grid){
 	for(i = 0; i < grid.gridWidth; i++){
 		if(grid.squares[-(side - 1) * 7][i].piece != null && grid.squares[-(side - 1) * 7][i].piece.type == 0){
-			grid.squares[-(side - 1) * 7][i].piece = new Queen(side);
+			updateQueen(i, -(side - 1) * 7, side, grid);
 		}
 	}
 }
@@ -155,4 +155,16 @@ function debugPieces(grid){
 			output += grid.pieces[1][i].type + " ";
 		}
 	alert(output)
+}
+
+function updateQueen(x, y, side, grid){ //ui side can overwrite this
+	alert("old update");
+	var mesh;
+	if(grid.squares[y][x].piece.mesh != null){
+		alert("storing mesh")
+		mesh = grid.squares[y][x].piece.mesh;
+	}
+	grid.squares[y][x].piece = new Queen(side, x, y);
+	grid.squares[y][x].piece.mesh = mesh;
+	alert("old update done");
 }

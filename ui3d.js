@@ -43,6 +43,12 @@ function initUI(){
 	
 	loadMeshes();
 	makeBoard();
+	
+	updateQueen = new Function(x, y, side, grid, "\
+		alert(\"new queen\")\
+		grid.squares[y][x].piece = new Queen(side); \
+		grid.squares[y][x].piece.mesh = makePiece(4, side, new THREE.Vector3(x * 2, 0, y*2));\
+	");
 }
 
 function loadMeshes(){
