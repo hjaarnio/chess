@@ -101,12 +101,32 @@ function makePiece(index, side, coords){
 	var mesh = new THREE.Mesh(meshes[index].piece, material[side]);
 	mesh.position = coords;
 	mesh.rotation.y = side * Math.PI;
+	
+	var selectionHeight = 0.05;
+	var selectionWidth  = 0.2;
+	
+	var selectedMaterial = new THREE.MeshBasicMaterial({color: 0xffff00, shading: THREE.SmoothShading});
+	selectedMaterial.side = THREE.BackSide;
+	var selectedMesh = new THREE.Mesh(meshes[index].piece, selectedMaterial);
+	
+	mesh.geometry.computeBoundingBox();
+	var height = (mesh.geometry.boundingBox.max.y - mesh.geometry.boundingBox.min.y);
+	selectedMesh.position = new THREE.Vector3(0, -0.5 * selectionHeight * height, 0);
+	
+	selectedMesh.scale = new THREE.Vector3(1 + selectionWidth, 1 + selectionHeight, (1 + selectionWidth));
+	selectedMesh.visible = false;
+	
+	mesh.selection = selectedMesh;
+	
+	mesh.add(selectedMesh);
+	
 	scene.add(mesh);
 	return mesh;
 }
 
 function makeBoard(){
-	var squareGeometry = new THREE.CubeGeometry(2, 0.05, 2);
+	var height = 0.2;
+	var squareGeometry = new THREE.CubeGeometry(2, height, 2);
 	var selectedGeometry = new THREE.PlaneGeometry(2, 2);
 	//purposefully different materials than pieces
 	var material = new Array(2);
@@ -135,11 +155,11 @@ function makeBoard(){
 	for(var i = 0; i < 8; i++){
 		for(var j = 0; j < 8 ; j++){
 			var squareMesh = new THREE.Mesh(squareGeometry, material[((i % 2 == j % 2) ? 0 : 1)]);
-			squareMesh.position = new THREE.Vector3(i, 0, j).multiplyScalar(2);
+			squareMesh.position = new THREE.Vector3(i, -0.5 * height, j).multiplyScalar(2);
 			squareMesh.square = {x: i, y: j};
 			
 			squareMesh.selection = new THREE.Mesh(selectedGeometry, selectedMaterial);
-			squareMesh.selection.position = squareMesh.position.clone(); squareMesh.selection.position.y += 0.07;
+			squareMesh.selection.position = squareMesh.position.clone(); squareMesh.selection.position.y += height;
 			squareMesh.selection.rotation.x = -Math.PI / 2;
 			squareMesh.selection.visible = false;
 			
@@ -208,13 +228,15 @@ function mouseClick(event){
 		selected = intersects[0].object.square;
 	}  else {
 		do3dMove([selected.x, selected.y, x, y]);
-		//primaryGrid.squares[selected.y][selected.x].mesh.selection.visible = false;
 		selected = null;
 	}
 	updateSelected();
 }
 
 function updateSelected(){
+	for(var i = 0; i < primaryGrid.pieces[0].concat(primaryGrid.pieces[1]).length; i++){
+			primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].mesh.selection.visible = false;
+	}
 	if(selected == null){
 		for(var i = 0; i < 8; i++){
 			for(var j = 0; j < 8; j++){
@@ -228,6 +250,7 @@ function updateSelected(){
 				primaryGrid.squares[i][j].mesh.selection.visible = (moveset.indexOf(primaryGrid.squares[i][j]) != -1);
 			}
 		}
+		primaryGrid.squares[selected.y][selected.x].piece.mesh.selection.visible = true;
 	}
 }
 
