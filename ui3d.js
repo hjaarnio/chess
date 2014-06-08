@@ -31,8 +31,8 @@ function initUI(){
 	scene.add(cameraCenter);
 	
 	cameraCenter.eulerOrder = 'YXZ';
-	cameraCenter.position.z = 4 * 2;
-	cameraCenter.position.x = 4 * 2;
+	cameraCenter.position.z = 3.5 * 2;
+	cameraCenter.position.x = 3.5 * 2;
 	
 	camera.position.z = 20;
 	
