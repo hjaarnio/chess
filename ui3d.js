@@ -126,9 +126,9 @@ function makeBoard(){
   		fragmentShader:"\
   		varying vec2 vUv; \
   		void main() { \
-  			vec2 d = 1.3 * (vUv - vec2(0.5, 0.5)); \
+  			vec2 d = 2.0 * (vUv - vec2(0.5, 0.5)); \
   			float f = 1.0 - (length(d)); \
-  			gl_FragColor = vec4(1.0, 1.0, 0.0, f); \
+  			gl_FragColor = vec4(1, 1, 0, f); \
 		} "
 	});
 	
@@ -228,5 +228,36 @@ function updateSelected(){
 				primaryGrid.squares[i][j].mesh.selection.visible = (moveset.indexOf(primaryGrid.squares[i][j]) != -1);
 			}
 		}
+	}
+}
+
+function keyPressed(event){
+	//alert(event.keyCode || event.which)
+	switch(event.keyCode || event.which){
+		case 119: //W
+			cameraCenter.rotation.x -= Math.PI /24;
+			if(cameraCenter.rotation.x < -Math.PI /2)
+				cameraCenter.rotation.x = -Math.PI /2;
+			break;
+		case 97: //A
+			cameraCenter.rotation.y -= Math.PI /24;
+			break;
+		case 115: //S
+			cameraCenter.rotation.x += Math.PI /24;
+			if(cameraCenter.rotation.x > Math.PI /2)
+				cameraCenter.rotation.x = Math.PI /2;
+			break;
+		case 100: //D
+			cameraCenter.rotation.y += Math.PI /24;
+			break;
+		case 113: //Q
+			camera.position.z -= 0.5;
+			if(camera.position.z < 1)
+				camera.position.z = 1;
+			break;
+		case 101: //E
+			camera.position.z += 0.5;
+			break;
+		default: break;
 	}
 }
