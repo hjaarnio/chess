@@ -41,6 +41,7 @@ function Grid(setup){
 	}
 	
 	this.allPieces = function(){
+		alert("concat")
 		return this.pieces[0].concat(this.pieces[1]);
 	};
 	
@@ -145,6 +146,19 @@ function checkPawns(side, grid){
 	}
 }
 
+function removePiece(grid, x, y){
+	piece = grid.squares[y][x].piece;
+	if(piece == null){
+		alert ("failure at removing piece, doesn't exist");
+		return;
+	}
+	// TODO: separate 3d stuff out of here
+	if(piece.mesh != null){
+		scene.remove(piece.mesh);
+	}
+	grid.pieces[piece.side].splice(grid.pieces[piece.side].indexOf(piece));
+	grid.squares[y][x] = null;
+}
 
 function debugPieces(grid){
 	var output = "";
@@ -157,4 +171,16 @@ function debugPieces(grid){
 			output += grid.pieces[1][i].type + " ";
 		}
 	alert(output)
+}
+
+function updateQueen(x, y, side, grid){ //ui side can overwrite this
+	alert("old update");
+	var mesh;
+	if(grid.squares[y][x].piece.mesh != null){
+		alert("storing mesh")
+		mesh = grid.squares[y][x].piece.mesh;
+	}
+	grid.squares[y][x].piece = new Queen(side, x, y);
+	grid.squares[y][x].piece.mesh = mesh;
+	alert("old update done");
 }

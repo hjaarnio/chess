@@ -6,7 +6,7 @@ function Piece(type, side, x, y){
 	
 	this.move = function (x2, y2, grid){ //moving function used by all pieces except king, rook, and pawn (which have to keep track of stuff)
 		if(grid.squares[y2][x2].piece != null){
-			grid.pieces[1 - this.side].splice(grid.pieces[1 - this.side].indexOf(grid.squares[y2][x2].piece), 1);
+			removePiece(grid, x2, y2);
 		}
 		grid.squares[y2][x2].piece = this;
 		grid.squares[this.y][this.x].piece = null;
@@ -80,12 +80,11 @@ function Pawn(side, x, y){
 		
 		if(this.x != x2 && this.y == 4 - this.side && grid.squares[this.y][x2].piece != null &&
 			grid.squares[this.y][x2].piece.type == 0 && grid.squares[this.y][x2].piece.timesMoved == 1){
-				grid.pieces[1 - this.side].splice(grid.pieces[1 - this.side].indexOf(grid.squares[this.y][x2].piece));
-				grid.squares[this.y][x2].piece = null;
+				removePiece(grid, x2, this.y);
 		}
 		
 		if(grid.squares[y2][x2].piece != null){
-			grid.pieces[1 - this.side].splice(grid.pieces[1 - this.side].indexOf(grid.squares[y2][x2].piece), 1);
+			removePiece(grid, x2, y2);
 		}
 		
 		grid.squares[y2][x2].piece = this;
@@ -144,7 +143,7 @@ function Rook(side, x, y){
 		this.hasMoved = true;
 		
 		if(grid.squares[y2][x2].piece != null){
-			grid.pieces[1 - this.side].splice(grid.pieces[1 - this.side].indexOf(grid.squares[y2][x2].piece, 1));
+			removePiece(grid, x2, y2);
 		}
 		
 		grid.squares[y2][x2].piece = this;
@@ -274,7 +273,7 @@ function King(side, x, y){
 		this.hasMoved = true;
 		
 		if(grid.squares[y2][x2].piece != null){
-			grid.pieces[1 - this.side].splice(grid.pieces[1 - this.side].indexOf(grid.squares[y2][x2].piece), 1);
+			removePiece(grid, x2, y2);
 		}
 		
 		grid.squares[y2][x2].piece = grid.squares[this.y][this.x].piece;
