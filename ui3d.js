@@ -240,8 +240,9 @@ function mouseClick(event){
 }
 
 function updateSelected(){
-	for(var i = 0; i < primaryGrid.pieces[0].concat(primaryGrid.pieces[1]).length; i++){
-			primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].mesh.selection.visible = false;
+	var pieces = primaryGrid.allPieces();
+	for(var i = 0; i < pieces.length; i++){
+			pieces[i].mesh.selection.visible = false;
 	}
 	if(selected == null){
 		for(var i = 0; i < 8; i++){
