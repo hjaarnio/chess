@@ -40,7 +40,9 @@ function Grid(setup){
 		
 	}
 	
-	
+	this.allPieces = function(){
+		return this.pieces[0].concat(this.pieces[1]);
+	};
 	
 	this.copy = function(){ //returns a copy of the grid
 		var result = new Grid(false);
@@ -155,16 +157,4 @@ function debugPieces(grid){
 			output += grid.pieces[1][i].type + " ";
 		}
 	alert(output)
-}
-
-function updateQueen(x, y, side, grid){ //ui side can overwrite this
-	alert("old update");
-	var mesh;
-	if(grid.squares[y][x].piece.mesh != null){
-		alert("storing mesh")
-		mesh = grid.squares[y][x].piece.mesh;
-	}
-	grid.squares[y][x].piece = new Queen(side, x, y);
-	grid.squares[y][x].piece.mesh = mesh;
-	alert("old update done");
 }

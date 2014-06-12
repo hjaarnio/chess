@@ -90,11 +90,11 @@ function makePieces(){
 		scene.remove(this.mesh);
 		this.mesh = makePiece(4, this.side, new THREE.Vector3(this.x, this.y).multiplyScalar(2));
 	};
-	for(var i = 0; i < primaryGrid.pieces[0].concat(primaryGrid.pieces[1]).length; i++){
-		primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].mesh = makePiece(primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].type, primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].side,
-							new THREE.Vector3((i % 8), 0, Math.floor(i / 8) + (4 * primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].side)).multiplyScalar(2));
-		if(primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].type == 0){
-			primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].promote = customPromote;
+	var pieces = primaryGrid.allPieces();
+	for(var i = 0; i < pieces.length; i++){
+		pieces[i].mesh = makePiece(pieces[i].type, pieces[i].side, new THREE.Vector3((i % 8), 0, Math.floor(i / 8) + (4 * pieces[i].side)).multiplyScalar(2));
+		if(pieces[i].type == 0){
+			pieces[i].promote = customPromote;
 		}
 	}
 }
