@@ -12,7 +12,7 @@ function Piece(type, side, x, y){
 		grid.squares[this.y][this.x].piece = null;
 		this.x = x2;
 		this.y = y2;
-	}
+	};
 	
 	this.legalMove = function(x2, y2, grid) {
 		if(containsOwn(x2, y2, this.side, grid)){
@@ -21,7 +21,7 @@ function Piece(type, side, x, y){
 		if(this.moveset(grid).lastIndexOf(grid.squares[y2][x2]) != -1){
 			return true;
 		} else return false;
-	}
+	};
 }
 
 function containsOwn(x2, y2, side, grid){
@@ -72,7 +72,7 @@ function Pawn(side, x, y){
 		} 
 		
 		return moveset;
-	}
+	};
 	
 	this.move = function(x2, y2, grid){
 		this.timesMoved++;
@@ -92,7 +92,7 @@ function Pawn(side, x, y){
 		grid.squares[this.y][this.x].piece = null;
 		this.y = y2;
 		this.x = x2;
-	}
+	};
 }
 Pawn.prototype = new Piece;
 
@@ -132,7 +132,7 @@ function Rook(side, x, y){
 		}
 		
 		return moveset;
-	}
+	};
 	
 	this.move = function(x2, y2, grid){
 		this.hasMoved = true;
@@ -145,7 +145,7 @@ function Rook(side, x, y){
 		grid.squares[this.y][this.x].piece = null;
 		this.x = x2;
 		this.y = y2;
-	}
+	};
 }
 Rook.prototype = new Piece;
 
@@ -188,7 +188,7 @@ function Bishop(side, x, y){
 		}
 		
 		return moveset;
-	}
+	};
 }
 Bishop.prototype = new Piece;
 
@@ -224,7 +224,7 @@ function Knight(side, x, y){
 		}
 		
 		return moveset;
-	}
+	};
 }
 Knight.prototype = new Piece;
 
@@ -255,7 +255,7 @@ function King(side, x, y){
 				moveset.push(grid.squares[this.y][6]);
 		}
 		return moveset;
-	}
+	};
 	
 	this.move = function(x2, y2, grid){
 		if(!this.hasMoved && x2 == 2 && this.y == y2){ // move won't get called unless legalMove with stricter rules has been passed
@@ -275,7 +275,7 @@ function King(side, x, y){
 		grid.squares[this.y][this.x].piece = null;
 		this.x = x2;
 		this.y = y2;
-	}
+	};
 }
 King.prototype = new Piece;
 
@@ -349,6 +349,6 @@ function Queen(side, x, y){
 		
 		
 		return moveset;
-	}
+	};
 }
 Queen.prototype = new Piece;
