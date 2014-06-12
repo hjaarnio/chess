@@ -84,19 +84,19 @@ function meshLoaded(){
 	makePieces();
 }
 function makePieces(){
-	
-	for(var i = 0; i < primaryGrid.pieces[0].length; i++){
-		primaryGrid.pieces[0][i].mesh = makePiece(primaryGrid.pieces[0][i].type, 0, new THREE.Vector3(i % 8, 0, Math.floor(i / 8)).multiplyScalar(2));
+	customPromote = function(){
+		Piece.call(this, 4, this.side, this.x, this.y);
+		this.moveset = new Queen(this.side, this.x, this.y).moveset;
+		scene.remove(this.mesh);
+		this.mesh = makePiece(4, this.side, new THREE.Vector3(this.x, this.y).multiplyScalar(2));
+	};
+	for(var i = 0; i < primaryGrid.pieces[0].concat(primaryGrid.pieces[1]).length; i++){
+		primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].mesh = makePiece(primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].type, primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].side,
+							new THREE.Vector3((i % 8), 0, Math.floor(i / 8) + (4 * primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].side)).multiplyScalar(2));
+		if(primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].type == 0){
+			primaryGrid.pieces[0].concat(primaryGrid.pieces[1])[i].promote = customPromote;
+		}
 	}
-	for(var i = 0; i < primaryGrid.pieces[1].length; i++){
-		primaryGrid.pieces[1][i].mesh = makePiece(primaryGrid.pieces[1][i].type, 1, new THREE.Vector3(i % 8, 0, Math.floor(i / 8) + 6).multiplyScalar(2));
-	}
-	/*makePiece(0, materialWhite, new THREE.Vector3(6, 0, 0));
-	makePiece(1, materialWhite, new THREE.Vector3(0, 0, 0));
-	makePiece(2, materialBlack, new THREE.Vector3(2, 0, 0));
-	makePiece(3, materialWhite, new THREE.Vector3(4, 0, 0));
-	makePiece(4, materialBlack, new THREE.Vector3(-2, 0, 0));
-	makePiece(5, materialWhite, new THREE.Vector3(-4, 0, 0))*/
 }
 function makePiece(index, side, coords){
 

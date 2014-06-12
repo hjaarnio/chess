@@ -93,6 +93,12 @@ function Pawn(side, x, y){
 		this.y = y2;
 		this.x = x2;
 	};
+	
+	this.promote = function(){
+		alert("promote pawn")
+		Piece.call(this, 4, side, this.x, this.y);
+		this.moveset = new Queen(this.side, this.x, this.y).moveset;
+	};
 }
 Pawn.prototype = new Piece;
 

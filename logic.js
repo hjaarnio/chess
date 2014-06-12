@@ -138,7 +138,7 @@ function outsideBoard(x, y, grid){
 function checkPawns(side, grid){
 	for(i = 0; i < grid.gridWidth; i++){
 		if(grid.squares[-(side - 1) * 7][i].piece != null && grid.squares[-(side - 1) * 7][i].piece.type == 0){
-			updateQueen(i, -(side - 1) * 7, side, grid);
+			grid.squares[-(side - 1) * 7][i].piece.promote();//updateQueen(i, -(side - 1) * 7, side, grid);
 		}
 	}
 }
