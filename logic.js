@@ -97,14 +97,9 @@ function move(x1, y1, x2, y2, grid){
 	if (checkValidMove(x1, y1, x2, y2, grid)){
 		if(grid.squares[y1][x1].piece.legalMove(x2, y2, grid)){
 			var gridCopy = grid.copy();
-			debugPieces(grid);
 			gridCopy.squares[y1][x1].piece.move(x2, y2, gridCopy);
-			debugPieces(grid);
-			alert("moved on copy")
 			if(!isKingInCheck(whoseMove, gridCopy)){
-				alert("king not in check, do real move")
 				grid.squares[y1][x1].piece.move(x2, y2, grid);
-				checkPawns(whoseMove, grid);
 				if(whoseMove == 1){
 					whoseMove = 0;
 				} else whoseMove = 1;

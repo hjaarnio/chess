@@ -91,6 +91,10 @@ function Pawn(side, x, y){
 		grid.squares[this.y][this.x].piece = null;
 		this.y = y2;
 		this.x = x2;
+		
+		if((this.y == 0 && this.side == 1) ||(this.y == 7 && this.side == 0)){
+			this.promote();
+		}
 	};
 	
 	this.promote = function(){
