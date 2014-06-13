@@ -41,7 +41,6 @@ function Grid(setup){
 	}
 	
 	this.allPieces = function(){
-		alert("concat")
 		return this.pieces[0].concat(this.pieces[1]);
 	};
 	
@@ -98,8 +97,12 @@ function move(x1, y1, x2, y2, grid){
 	if (checkValidMove(x1, y1, x2, y2, grid)){
 		if(grid.squares[y1][x1].piece.legalMove(x2, y2, grid)){
 			var gridCopy = grid.copy();
+			debugPieces(grid);
 			gridCopy.squares[y1][x1].piece.move(x2, y2, gridCopy);
+			debugPieces(grid);
+			alert("moved on copy")
 			if(!isKingInCheck(whoseMove, gridCopy)){
+				alert("king not in check, do real move")
 				grid.squares[y1][x1].piece.move(x2, y2, grid);
 				checkPawns(whoseMove, grid);
 				if(whoseMove == 1){
@@ -148,6 +151,7 @@ function checkPawns(side, grid){
 
 function removePiece(grid, x, y){
 	piece = grid.squares[y][x].piece;
+	alert(piece.type)
 	if(piece == null){
 		alert ("failure at removing piece, doesn't exist");
 		return;
@@ -156,8 +160,9 @@ function removePiece(grid, x, y){
 	if(piece.mesh != null){
 		scene.remove(piece.mesh);
 	}
-	grid.pieces[piece.side].splice(grid.pieces[piece.side].indexOf(piece));
-	grid.squares[y][x] = null;
+	alert(grid.pieces[piece.side].indexOf(piece))
+	grid.pieces[piece.side].splice(grid.pieces[piece.side].indexOf(piece), 1);
+	grid.squares[y][x].piece = null;
 }
 
 function debugPieces(grid){

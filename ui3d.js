@@ -192,7 +192,7 @@ function do3dMove(moves){
 	}
 	if(move(moves[0], moves[1], moves[2], moves[3], primaryGrid)){
 		updateText(moves[0], moves[1], moves[2], moves[3]);
-		scene.remove(killed);
+		//scene.remove(killed);
 		primaryGrid.squares[moves[3]][moves[2]].piece.mesh.position = new THREE.Vector3(moves[2], 0, moves[3]).multiplyScalar(2);
 		return true;
 	}
